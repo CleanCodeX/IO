@@ -4,13 +4,15 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>0.1.1</Version>
+    <Version>0.1.2-beta3</Version>
     <Authors>Sram-Tools</Authors>
     <Company></Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Common functionality to load and save a SRM (srm) file.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <OutputType>Library</OutputType>
+    <PackageId>SramCommons</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

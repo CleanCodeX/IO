@@ -11,6 +11,6 @@ namespace SramCommons.Extensions
             type
                 .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                 .Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType == typeof(T))
-                .ToDictionary(k => k.Name, v => (T)v.GetRawConstantValue())!;
+                .ToDictionary(k => k.Name, v => (T)v.GetRawConstantValue()!)!;
     }
 }

@@ -2,49 +2,43 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using App.Commons.Extensions;
 using SramCommons.Exceptions;
-using SramCommons.Extensions;
 using SramCommons.Helpers;
 
 namespace SramCommons.Models
 {
-    public abstract class SramFileBase<TSram, TSramGame, TFileRegion, TGameId> : SramFileBase, ISramFile<TSramGame, TGameId>
+    public abstract class SramFileBase<TSram, TSramGame> : SramFileBase, ISramFile<TSramGame>
         where TSram : struct
         where TSramGame : struct
-        where TGameId : struct, Enum
-        where TFileRegion : struct, Enum
     {
         private TSramGame _currentGame;
 
         protected int FirstGameOffset { get; }
+        protected int MaxGameIndex { get; }
 
         public ref TSramGame CurrentGame => ref _currentGame;
         public TSram Sram { get; }
-        public TGameId CurrentGameId { get; protected set; }
-        public TFileRegion GameRegion { get; set; }
+        public int CurrentGameIndex { get; protected set; }
         
-        protected SramFileBase(string filename, TFileRegion region, int sramSize, int gameSize, int firstGameOffset) :base(sramSize, gameSize)
+        protected SramFileBase(string filename, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) :base(sramSize, gameSize)
         {
             Debug.Assert(SramSize == Marshal.SizeOf<TSram>());
             Debug.Assert(gameSize == Marshal.SizeOf<TSramGame>());
 
             FirstGameOffset = firstGameOffset;
-            GameRegion = region;
+            MaxGameIndex = maxGameIndex;
             SramBuffer = LoadSramBufferFromFile(filename);
             Sram = GetSramStructFromBuffer(SramBuffer);
         }
 
-        public abstract TSramGame GetGame(TGameId gameId);
+        public abstract TSramGame GetGame(int gameIndex);
 
-        public bool IsValid() => IsValid(CurrentGameId);
-        public virtual bool IsValid(TGameId gameId) => gameId.ToInt() >= 1 && gameId.ToInt() <= gameId.GetMaxValue().ToInt();
-
-        protected int ToIndex(TGameId gameId) => (int)(object)gameId - 1;
+        public bool IsValid() => IsValid(CurrentGameIndex);
+        public virtual bool IsValid(int gameIndex) => gameIndex >= 0 && gameIndex <= MaxGameIndex;
 
         public virtual Span<byte> GetCurrentGameBytes()
         {
-            var startOffset = FirstGameOffset + CurrentGameId.ToIndex() * GameSize;
+            var startOffset = FirstGameOffset + CurrentGameIndex * GameSize;
             var endOffset = startOffset + GameSize;
 
             return SramBuffer.AsSpan()[startOffset..endOffset];

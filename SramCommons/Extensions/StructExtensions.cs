@@ -53,10 +53,10 @@ namespace SramCommons.Extensions
             return stuff;
         }
 
-        public static T ByteArrayToStructureBigEndian<T>(this byte[] bytes) where T : struct
+        private static T ByteArrayToStructureBigEndian<T>(this byte[] bytes) where T : struct
             => (T)ByteArrayToStructureBigEndian(bytes, typeof(T))!;
 
-        public static object? ByteArrayToStructureBigEndian(this byte[] bytes, Type type)
+        private static object? ByteArrayToStructureBigEndian(this byte[] bytes, Type type)
         {
             var instance = bytes.ByteArrayToStructure(type);
 

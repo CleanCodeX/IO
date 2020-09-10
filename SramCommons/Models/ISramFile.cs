@@ -2,13 +2,12 @@ using System;
 
 namespace SramCommons.Models
 {
-    public interface ISramFile<out TSramGame, in TGameId> : ISramFile
-        where TGameId: struct, Enum
+    public interface ISramFile<out TSramGame> : ISramFile
         where TSramGame : struct
     {
-        TSramGame GetGame(TGameId gameId);
+        TSramGame GetGame(int gameIndex);
         
-        public bool IsValid(TGameId gameId);
+        public bool IsValid(int gameIndex);
     }
 
     public interface ISramFile

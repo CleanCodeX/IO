@@ -2,6 +2,6 @@ using System;
 
 namespace SramCommons.Attributes
 {
-    public class ReverseBytesOnlyAttribute : Attribute
+    internal class ReverseBytesOnlyAttribute : Attribute
     { }
 }
