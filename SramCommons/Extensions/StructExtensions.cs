@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using SramCommons.Attributes;
-using SramCommons.Models.Structs;
 
 namespace SramCommons.Extensions
 {
@@ -51,110 +45,6 @@ namespace SramCommons.Extensions
             var stuff = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), type);
             handle.Free();
             return stuff;
-        }
-
-        private static T ByteArrayToStructureBigEndian<T>(this byte[] bytes) where T : struct
-            => (T)ByteArrayToStructureBigEndian(bytes, typeof(T))!;
-
-        private static object? ByteArrayToStructureBigEndian(this byte[] bytes, Type type)
-        {
-            var instance = bytes.ByteArrayToStructure(type);
-
-            var fieldInfos = instance!.GetType().GetFields();
-            foreach (var fi in fieldInfos)
-            {
-                if (fi.FieldType == typeof(byte[]))
-                    continue;
-
-                if (fi.IsDefined(typeof(FixedBufferAttribute)))
-                    continue;
-                if (fi.IsDefined(typeof(NoByteReorderingAttribute)))
-                    continue;
-                if (fi.IsDefined(typeof(IgnoreDataMemberAttribute)))
-                    continue;
-                if (fi.IsDefined(typeof(CompilerGeneratedAttribute)))
-                    continue;
-
-                if (fi.FieldType.IsDefined(typeof(NoByteReorderingAttribute)))
-                    continue;
-                if (fi.FieldType.IsDefined(typeof(IgnoreDataMemberAttribute)))
-                    continue;
-
-                if (fi.FieldType == typeof(ThreeByteUint))
-                {
-                    //var threeByte = (ThreeByteUint)fi.GetValue(instance);
-
-                    //var b32 = BitConverter.GetBytes(threeByte.Value3Byte);
-                    //var b32R = b32.Reverse().ToArray();
-
-                    //threeByte.ValueByte1 = b32R[1];
-                    //threeByte.ValueByte2 = b32R[2];
-                    //threeByte.ValueByte3 = b32R[3];
-
-                    //fi.SetValueDirect(__makeref(instance), threeByte);
-                }
-                else if (fi.FieldType.IsValueType && !fi.FieldType.IsPrimitive)
-                {
-                    var value = fi.GetValue(instance);
-                    var structBytes = value.ToBytesHostEndian();
-
-                    if (fi.FieldType.IsDefined(typeof(ReverseBytesOnlyAttribute)))
-                    {
-                        Array.Reverse(structBytes);
-
-                        value = structBytes.ByteArrayToStructure(fi.FieldType);
-                    }
-                    else
-                        value = structBytes.ByteArrayToStructureBigEndian(fi.FieldType);
-
-                    fi.SetValue(instance, value);
-                }
-                else if (fi.FieldType == typeof(short))
-                {
-                    // TODO
-                }
-                else if (fi.FieldType == typeof(int))
-                {
-                    // TODO
-                }
-                else if (fi.FieldType == typeof(long))
-                {
-                    // TODO
-                }
-                else if (fi.FieldType == typeof(char))
-                {
-                    var i16 = (char)fi.GetValue(instance)!;
-                    var b16 = BitConverter.GetBytes(i16);
-                    var b16R = b16.Reverse().ToArray();
-                    fi.SetValueDirect(__makeref(instance), BitConverter.ToChar(b16R, 0));
-                }
-                else if (fi.FieldType == typeof(ushort))
-                {
-                    var i16 = (ushort)fi.GetValue(instance)!;
-                    var b16 = BitConverter.GetBytes(i16);
-                    var b16R = b16.Reverse().ToArray();
-                    fi.SetValueDirect(__makeref(instance), BitConverter.ToUInt16(b16R, 0));
-                }
-                else if (fi.FieldType == typeof(uint))
-                {
-                    var i32 = Convert.ToUInt32(fi.GetValue(instance));
-                    var b32 = BitConverter.GetBytes(i32);
-                    var b32R = b32.Reverse().ToArray();
-                    var newValue = BitConverter.ToUInt32(b32R, 0);
-
-                    fi.SetValueDirect(__makeref(instance), newValue);
-                }
-                else if (fi.FieldType == typeof(ulong))
-                {
-                    var i64 = Convert.ToUInt64(fi.GetValue(instance));
-                    var b64 = BitConverter.GetBytes(i64);
-                    var b64R = b64.Reverse().ToArray();
-                    var newValue = BitConverter.ToUInt64(b64R, 0);
-
-                    fi.SetValueDirect(__makeref(instance), newValue);
-                }
-            }
-            return instance;
         }
     }
 }
