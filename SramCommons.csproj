@@ -5,14 +5,16 @@
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
     <Version>0.1.2-beta4</Version>
-    <Authors>Sram-Tools</Authors>
-    <Company></Company>
+    <Authors>XETH</Authors>
+    <Company>XETH</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Common functionality to load and save a SRM (srm) file.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <OutputType>Library</OutputType>
     <PackageId>SramCommons</PackageId>
+    <PackageProjectUrl>https://github.com/CleanCodeX</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CleanCodeX/SramCommons</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
