@@ -6,7 +6,7 @@ namespace SramCommons.Models.Structs
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 3)]
     [DebuggerDisplay("{ToString(),nq}")]
-    public struct ThreeByteUint
+    public struct ThreeByteUInt
     {
         public uint Value
         {
