@@ -4,12 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>1.0.0-c</Version>
+    <Version>1.0.0-d</Version>
     <Authors>XETH</Authors>
     <Company>XETH</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <Description>Common functionality to load and save a SRM (srm) file.</Description>
+    <Description>Common functionality to load and save a SRAM (srm) file.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <OutputType>Library</OutputType>
     <PackageId>Snes.SramCommons</PackageId>

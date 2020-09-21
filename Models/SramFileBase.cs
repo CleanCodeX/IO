@@ -20,14 +20,16 @@ namespace SramCommons.Models
         public TSram Sram { get; }
         public int CurrentGameIndex { get; protected set; }
         
-        protected SramFileBase(string filename, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) :base(sramSize, gameSize)
+        protected SramFileBase(string filepath, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) : this(new FileStream(filepath, FileMode.Open), sramSize, gameSize, firstGameOffset, maxGameIndex)
+        { }
+        protected SramFileBase(Stream filestream, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) : base(sramSize, gameSize)
         {
             Debug.Assert(SramSize == Marshal.SizeOf<TSram>());
             Debug.Assert(gameSize == Marshal.SizeOf<TSramGame>());
 
             FirstGameOffset = firstGameOffset;
             MaxGameIndex = maxGameIndex;
-            SramBuffer = LoadSramBufferFromFile(filename);
+            SramBuffer = LoadSramBufferFromStream(filestream);
             Sram = GetSramStructFromBuffer(SramBuffer);
         }
 
@@ -59,30 +61,29 @@ namespace SramCommons.Models
 
         protected SramFileBase(int sramSize, int gameSize) => (SramSize, GameSize) = (sramSize, gameSize);
 
-        protected byte[] LoadSramBufferFromFile(string filename)
+        protected byte[] LoadSramBufferFromFile(string filepath) => LoadSramBufferFromStream(new FileStream(filepath, FileMode.Open));
+        protected byte[] LoadSramBufferFromStream(Stream stream)
         {
-            using var file = new FileStream(filename, FileMode.Open);
-
-            if (file is null)
+            if (stream is null)
                 throw new InvalidSramFileException(FileError.FileNotFound);
 
-            file.Seek(0, SeekOrigin.End);
+            stream.Seek(0, SeekOrigin.End);
 
-            if (file.Position != SramSize)
+            if (stream.Position != SramSize)
                 throw new InvalidSramFileException(FileError.InvalidSize);
 
             var sram = new byte[SramSize];
 
-            file.Seek(0, SeekOrigin.Begin);
-            file.Read(sram, 0, SramSize);
-            file.Close();
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.Read(sram, 0, SramSize);
+            stream.Close();
 
             return sram;
         }
 
-        public virtual bool Save(string filename)
+        public virtual bool Save(string filepath)
         {
-            using var file = new FileStream(filename, FileMode.Create);
+            using var file = new FileStream(filepath, FileMode.Create);
 
             file.Write(SramBuffer, 0, SramSize);
 

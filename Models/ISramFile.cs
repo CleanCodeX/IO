@@ -12,7 +12,7 @@ namespace SramCommons.Models
 
     public interface ISramFile
     {
-        bool Save(string filename);
+        bool Save(string filepath);
         public bool IsValid();
         Span<byte> GetCurrentGameBytes();
     }
