@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>1.0.0-d</Version>
+    <Version>1.0.0-i</Version>
     <Authors>XETH</Authors>
     <Company>XETH</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -15,6 +15,10 @@
     <PackageId>Snes.SramCommons</PackageId>
     <PackageProjectUrl>https://github.com/CleanCodeX</PackageProjectUrl>
     <RepositoryUrl>https://github.com/CleanCodeX/SramCommons</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,10 +2,9 @@ using System;
 
 namespace SramCommons.Exceptions
 {
-	/// The possible InvalidSRAMFileException error codes
+	/// The possible error codes
 	public enum FileError
 	{
-		FileNotFound,
 		InvalidSize,
 		NoValidGames
 	}
