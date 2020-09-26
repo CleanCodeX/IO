@@ -71,7 +71,7 @@ namespace SramCommons.Models
             stream.Seek(0, SeekOrigin.End);
 
             if (stream.Position != SramSize)
-                throw new InvalidSramFileException(FileError.InvalidSize);
+                throw new InvalidSramFileException(SramError.InvalidSize);
 
             var sram = new byte[SramSize];
 
@@ -111,7 +111,7 @@ namespace SramCommons.Models
             stream.Write(SramBuffer, 0, SramSize);
 
             if (stream.Position != SramSize)
-                throw new InvalidSramFileException(FileError.InvalidSize);
+                throw new InvalidSramFileException(SramError.InvalidSize);
 
             stream.Close();
             IsModified = false;

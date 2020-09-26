@@ -1,22 +1,23 @@
+using App.Commons.Extensions;
 using System;
+using System.ComponentModel.DataAnnotations;
+using Res = SramCommons.Properties.Resources;
 
 namespace SramCommons.Exceptions
 {
-	/// The possible error codes
-	public enum FileError
+	public enum SramError
 	{
+        [Display(Name = nameof(Res.InvalidSramSize), ResourceType = typeof(Res))]
 		InvalidSize,
+        [Display(Name = nameof(Res.NoValidSramGames), ResourceType = typeof(Res))]
 		NoValidGames
 	}
 
-	/**
-	 * Exception thrown when a file is not a valid SRAM file.
-	 */
 	public class InvalidSramFileException : Exception
 	{
-		public InvalidSramFileException(FileError error) : base(nameof(InvalidSramFileException)) => Error = error;
+		public InvalidSramFileException(SramError error) : base(error.GetDisplayName()) => Error = error;
 
-		public FileError Error { get; }
+		public SramError Error { get; }
 	}
 }
 
