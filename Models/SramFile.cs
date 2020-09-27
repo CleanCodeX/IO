@@ -1,25 +1,37 @@
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
 using App.Commons.Helpers;
 using SramCommons.Exceptions;
 using SramCommons.Helpers;
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace SramCommons.Models
 {
+    public static class SramFileExtensions
+    {
+        public static void Load(this ISramFile source, string filepath)
+        {
+            Requires.FileExists(filepath, nameof(filepath));
+
+            source.Load(new FileStream(filepath, FileMode.Open));
+        }
+
+        public static void Save(this ISramFile source, string filepath)
+        {
+            Requires.NotNullOrEmpty(filepath, nameof(filepath));
+
+            source.Save(new FileStream(filepath, FileMode.Create));
+        }
+    }
+
     public class SramFile<TSram, TSramGame> : SramFile, ISramFile<TSramGame>
         where TSram : struct
         where TSramGame : struct
     {
         public virtual TSram Sram { get; }
 
-        public SramFile(string filepath, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) : this(new FileStream(filepath, FileMode.Open), sramSize, gameSize, firstGameOffset, maxGameIndex) { }
-        public SramFile(Stream stream, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) : base(sramSize, gameSize, firstGameOffset, maxGameIndex)
+        public SramFile(Stream stream, int firstGameOffset, int maxGameIndex) : base(Marshal.SizeOf<TSram>(), Marshal.SizeOf<TSramGame>(), firstGameOffset, maxGameIndex)
         {
-            Debug.Assert(SramSize == Marshal.SizeOf<TSram>());
-            Debug.Assert(gameSize == Marshal.SizeOf<TSramGame>());
-
             Load(stream);
             Sram = GetStructFromBuffer<TSram>(SramBuffer);
         }
@@ -47,24 +59,14 @@ namespace SramCommons.Models
         public int MaxGameIndex { get; }
         public bool IsModified { get; set; }
 
-        public SramFile(string filepath, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) : this(sramSize, gameSize, firstGameOffset, maxGameIndex) => Load(filepath);
-        public SramFile(Stream stream, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) :this(sramSize, gameSize, firstGameOffset, maxGameIndex) => Load(stream);
+        public SramFile(Stream stream, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) : this(sramSize, gameSize, firstGameOffset, maxGameIndex) => Load(stream);
         public SramFile(int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) => (SramSize, GameSize, FirstGameOffset, MaxGameIndex) = (sramSize, gameSize, firstGameOffset, maxGameIndex);
 
-        public virtual bool IsValid(int gameIndex) => gameIndex >= 0 && gameIndex <= MaxGameIndex;
         public virtual bool IsValid() => true;
+        public virtual bool IsValid(int gameIndex) => IsValidIndex(gameIndex);
+        private bool IsValidIndex(int gameIndex) => gameIndex >= 0 && gameIndex <= MaxGameIndex;
 
-        public void Load(string filepath)
-        {
-            Requires.FileExists(filepath, nameof(filepath));
-
-            Load(new FileStream(filepath, FileMode.Open));
-        }
-        public void Load(Stream stream) => OnLoad(stream);
-
-        protected virtual void OnLoad(Stream stream) => SramBuffer = LoadSramBufferFromStream(stream);
-
-        private byte[] LoadSramBufferFromStream(Stream stream)
+        public virtual void Load(Stream stream)
         {
             Requires.NotNull(stream, nameof(stream));
 
@@ -78,13 +80,13 @@ namespace SramCommons.Models
             stream.Seek(0, SeekOrigin.Begin);
             stream.Read(sram, 0, SramSize);
             stream.Close();
-            
-            return sram;
+
+            SramBuffer = sram;
         }
 
-        public byte[] GetGameBytes(int gameIndex)
+        public virtual byte[] GetGameBytes(int gameIndex)
         {
-            Requires.True(IsValid(gameIndex), nameof(gameIndex));
+            Requires.True(IsValidIndex(gameIndex), nameof(gameIndex));
 
             var startOffset = FirstGameOffset + gameIndex * GameSize;
             var endOffset = startOffset + GameSize;
@@ -92,21 +94,10 @@ namespace SramCommons.Models
             return SramBuffer[startOffset..endOffset];
         }
 
-        public void Save(string filepath)
-        {
-            Requires.NotNullOrEmpty(filepath, nameof(filepath));
-
-            Save(new FileStream(filepath, FileMode.Create));
-        }
-        public void Save(Stream stream)
+        public virtual void Save(Stream stream)
         {
             Requires.NotNull(stream, nameof(stream));
 
-            OnSave(stream);
-        }
-
-        protected virtual void OnSave(Stream stream)
-        {
             stream.Position = 0;
             stream.Write(SramBuffer, 0, SramSize);
 
