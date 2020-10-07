@@ -9,7 +9,7 @@ namespace SramCommons.Exceptions
 	{
         [Display(Name = nameof(Res.InvalidSramSize), ResourceType = typeof(Res))]
 		InvalidSize,
-        [Display(Name = nameof(Res.NoValidSramGames), ResourceType = typeof(Res))]
+        [Display(Name = nameof(Res.NoValidGames), ResourceType = typeof(Res))]
 		NoValidGames
 	}
 

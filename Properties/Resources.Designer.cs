@@ -72,10 +72,9 @@ namespace SramCommons.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die There are no valid games in SRAM file ähnelt.
         /// </summary>
-        internal static string NoValidSramGames
-        {
+        internal static string NoValidGames {
             get {
-                return ResourceManager.GetString("NoValidSramGames", resourceCulture);
+                return ResourceManager.GetString("NoValidGames", resourceCulture);
             }
         }
     }
