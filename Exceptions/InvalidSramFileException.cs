@@ -7,9 +7,9 @@ namespace SramCommons.Exceptions
 {
 	public enum SramError
 	{
-        [Display(Name = nameof(Res.InvalidSramSize), ResourceType = typeof(Res))]
+		[Display(Name = nameof(Res.InvalidSramSize), ResourceType = typeof(Res))]
 		InvalidSize,
-        [Display(Name = nameof(Res.NoValidGames), ResourceType = typeof(Res))]
+		[Display(Name = nameof(Res.NoValidGames), ResourceType = typeof(Res))]
 		NoValidGames
 	}
 
