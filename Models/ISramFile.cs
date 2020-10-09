@@ -2,10 +2,11 @@ using System.IO;
 
 namespace SramCommons.Models
 {
-	public interface ISramFile<out TSramGame> : ISramFile
+	public interface ISramFile<TSramGame> : ISramFile
 		where TSramGame : struct
 	{
 		TSramGame GetGame(int gameIndex);
+		void SetGame(int gameIndex, TSramGame game);
 	}
 
 	public interface ISramFile
@@ -17,6 +18,7 @@ namespace SramCommons.Models
 
 		byte[] SramBuffer { get; }
 		byte[] GetGameBytes(int gameIndex);
+		void SetGameBytes(int gameIndex, byte[] buffer);
 
 		void Load(Stream stream);
 		void Save(Stream stream);

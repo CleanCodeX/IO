@@ -4,13 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>1.0.0-n</Version>
+    <Version>1.0.0-o</Version>
     <Authors>XETH</Authors>
     <Company>XETH</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Common functionality to load and save a SRAM (srm) file.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <OutputType>Library</OutputType>
     <PackageId>Snes.SramCommons</PackageId>
     <PackageProjectUrl>https://github.com/CleanCodeX</PackageProjectUrl>
@@ -26,7 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="App-Commons" Version="0.1.3" />
+    <PackageReference Include="CCX.Common.Shared.Min" Version="1.0.0-a1" />
   </ItemGroup>
 
   <ItemGroup>

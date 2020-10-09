@@ -1,4 +1,4 @@
-using App.Commons.Extensions;
+using Common.Shared.Min.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Res = SramCommons.Properties.Resources;

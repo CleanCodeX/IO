@@ -1,9 +1,10 @@
-using App.Commons.Helpers;
+using Common.Shared.Min.Helpers;
 using SramCommons.Exceptions;
 using SramCommons.Helpers;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using SramCommons.Extensions;
 
 namespace SramCommons.Models
 {
@@ -32,6 +33,7 @@ namespace SramCommons.Models
 
 		public SramFile(Stream stream, int firstGameOffset, int maxGameIndex) : base(Marshal.SizeOf<TSram>(), Marshal.SizeOf<TSramGame>(), firstGameOffset, maxGameIndex)
 		{
+			// ReSharper disable once VirtualMemberCallInConstructor
 			Load(stream);
 			Sram = GetStructFromBuffer<TSram>(SramBuffer);
 		}
@@ -40,6 +42,13 @@ namespace SramCommons.Models
 		{
 			var buffer = GetGameBytes(gameIndex);
 			return GetStructFromBuffer<TSramGame>(buffer);
+		}
+
+		public virtual void SetGame(int gameIndex, TSramGame game)
+		{
+			var buffer = game.ToBytesHostEndian();
+
+			SetGameBytes(gameIndex, buffer);
 		}
 
 		private static T GetStructFromBuffer<T>(byte[] buffer)
@@ -59,6 +68,7 @@ namespace SramCommons.Models
 		public int MaxGameIndex { get; }
 		public bool IsModified { get; set; }
 
+		// ReSharper disable once VirtualMemberCallInConstructor
 		public SramFile(Stream stream, int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) : this(sramSize, gameSize, firstGameOffset, maxGameIndex) => Load(stream);
 		public SramFile(int sramSize, int gameSize, int firstGameOffset, int maxGameIndex) => (SramSize, GameSize, FirstGameOffset, MaxGameIndex) = (sramSize, gameSize, firstGameOffset, maxGameIndex);
 
@@ -92,6 +102,15 @@ namespace SramCommons.Models
 			var endOffset = startOffset + GameSize;
 
 			return SramBuffer[startOffset..endOffset];
+		}
+
+		public virtual void SetGameBytes(int gameIndex, byte[] buffer)
+		{
+			Requires.True(IsValidIndex(gameIndex), nameof(gameIndex));
+
+			var startOffset = FirstGameOffset + gameIndex * GameSize;
+
+			Array.Copy(buffer, 0, SramBuffer, startOffset, buffer.Length);
 		}
 
 		public virtual void Save(Stream stream)
