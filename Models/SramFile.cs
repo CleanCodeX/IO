@@ -87,9 +87,8 @@ namespace SramCommons.Models
 
 			var sram = new byte[SramSize];
 
-			stream.Seek(0, SeekOrigin.Begin);
+			stream.Position = 0;
 			stream.Read(sram, 0, SramSize);
-			stream.Close();
 
 			SramBuffer = sram;
 		}
@@ -123,7 +122,6 @@ namespace SramCommons.Models
 			if (stream.Position != SramSize)
 				throw new InvalidSramFileException(SramError.InvalidSize);
 
-			stream.Close();
 			IsModified = false;
 		}
 	}
