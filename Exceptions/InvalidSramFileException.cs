@@ -1,15 +1,15 @@
-using Common.Shared.Min.Extensions;
 using System;
-using System.ComponentModel.DataAnnotations;
+using Common.Shared.Min.Attributes;
+using Common.Shared.Min.Extensions;
 using Res = SramCommons.Properties.Resources;
 
 namespace SramCommons.Exceptions
 {
 	public enum SramError
 	{
-		[Display(Name = nameof(Res.InvalidSramSize), ResourceType = typeof(Res))]
+		[DisplayNameLocalized(nameof(Res.InvalidSramSize), typeof(Res))]
 		InvalidSize,
-		[Display(Name = nameof(Res.NoValidGames), ResourceType = typeof(Res))]
+		[DisplayNameLocalized(nameof(Res.NoValidGames), typeof(Res))]
 		NoValidGames
 	}
 
