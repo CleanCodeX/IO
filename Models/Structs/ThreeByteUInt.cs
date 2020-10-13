@@ -8,21 +8,24 @@ namespace SramCommons.Models.Structs
 	[DebuggerDisplay("{ToString(),nq}")]
 	public struct ThreeByteUInt
 	{
+		/// <summary>
+		/// Gets or set 3 bytes values as uint
+		/// </summary>
 		public uint Value
 		{
-			get { return BitConverter.ToUInt32(new[] {ValueByte1, ValueByte2, ValueByte3, byte.MinValue}); }
+			get { return BitConverter.ToUInt32(new[] {Byte1, Byte2, Byte3, byte.MinValue}); }
 			set
 			{
 				var bytes = BitConverter.GetBytes(value);
-				ValueByte1 = bytes[0];
-				ValueByte2 = bytes[1];
-				ValueByte3 = bytes[2];
+				Byte1 = bytes[0];
+				Byte2 = bytes[1];
+				Byte3 = bytes[2];
 			}
 		}
 
-		public byte ValueByte1;
-		public byte ValueByte2;
-		public byte ValueByte3;
+		public byte Byte1;
+		public byte Byte2;
+		public byte Byte3;
 
 		public override string ToString() => Value.ToString();
 	}
