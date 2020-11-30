@@ -31,7 +31,7 @@ namespace SramCommons.Extensions
 			source.ThrowIfNull(nameof(source));
 			Requires.LessThan(offset, source.SramBuffer.Length, nameof(offset));
 
-			var bytes = source.SramBuffer[offset..(offset+length+1)];
+			var bytes = source.SramBuffer[offset..(offset+length)];
 
 			return BitConverter.ToUInt32(bytes);
 		}
@@ -41,9 +41,7 @@ namespace SramCommons.Extensions
 		public static void SetOffsetValue(this ISramFile source, int offset, byte value)
 		{
 			source.ThrowIfNull(nameof(source));
-			Requires.LessThan(offset, source.SramBuffer.Length, nameof(offset));
-
-			source.SramBuffer[offset] = value;
+			source.SetOffsetBytes(offset, new [] { value });
 		}
 
 		public static void SetOffsetValue(this ISramFile source, int gameIndex, int offset, ushort value) => source.SetOffsetValue(source.GameToSramOffset(gameIndex, offset), value);
@@ -51,11 +49,7 @@ namespace SramCommons.Extensions
 		public static void SetOffsetValue(this ISramFile source, int offset, ushort value)
 		{
 			source.ThrowIfNull(nameof(source));
-			Requires.LessThan(offset, source.SramBuffer.Length, nameof(offset));
-
-			var bytes = BitConverter.GetBytes(value);
-
-			Array.Copy(source.SramBuffer, offset, bytes, 0, bytes.Length);
+			source.SetOffsetBytes(offset, BitConverter.GetBytes(value));
 		}
 
 		public static void SetOffsetValue(this ISramFile source, int gameIndex, int offset, uint value) => source.SetOffsetValue(source.GameToSramOffset(gameIndex, offset), value);
@@ -63,9 +57,14 @@ namespace SramCommons.Extensions
 		public static void SetOffsetValue(this ISramFile source, int offset, uint value)
 		{
 			source.ThrowIfNull(nameof(source));
-			Requires.LessThan(offset, source.SramBuffer.Length, nameof(offset));
+			source.SetOffsetBytes(offset, BitConverter.GetBytes(value));
+		}
 
-			var bytes = BitConverter.GetBytes(value);
+		public static void SetOffsetBytes(this ISramFile source, int gameIndex, int offset, byte[] bytes) => source.SetOffsetBytes(source.GameToSramOffset(gameIndex, offset), bytes);
+		public static void SetOffsetBytes(this ISramFile source, int offset, byte[] bytes)
+		{
+			source.ThrowIfNull(nameof(source));
+			Requires.LessThan(offset, source.SramBuffer.Length, nameof(offset));
 
 			Array.Copy(source.SramBuffer, offset, bytes, 0, bytes.Length);
 		}
