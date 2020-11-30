@@ -24,16 +24,34 @@ namespace SramCommons.Extensions
 			source.Save(new FileStream(filepath, FileMode.Create, FileAccess.Write));
 		}
 
-		public static uint GetOffsetValue(this ISramFile source, int gameIndex, int offset, int length) => source.GetOffsetValue(source.GameToSramOffset(gameIndex, offset), length);
-
-		public static uint GetOffsetValue(this ISramFile source, int offset, int length = 1)
+		public static byte GetOffsetByte(this ISramFile source, int gameIndex, int offset) => source.GetOffsetByte(source.GameToSramOffset(gameIndex, offset));
+		public static byte GetOffsetByte(this ISramFile source, int offset)
 		{
 			source.ThrowIfNull(nameof(source));
-			Requires.LessThan(offset, source.SramBuffer.Length, nameof(offset));
+			return (byte)BitConverter.ToUInt16(source.GetOffsetBytes(offset));
+		}
 
-			var bytes = source.SramBuffer[offset..(offset+length)];
+		public static uint GetOffsetUInt16(this ISramFile source, int gameIndex, int offset) => source.GetOffsetUInt16(source.GameToSramOffset(gameIndex, offset));
+		public static uint GetOffsetUInt16(this ISramFile source, int offset)
+		{
+			source.ThrowIfNull(nameof(source));
+			return BitConverter.ToUInt16(source.GetOffsetBytes(offset, 2));
+		}
 
-			return BitConverter.ToUInt32(bytes);
+		public static uint GetOffsetUInt32(this ISramFile source, int gameIndex, int offset) => source.GetOffsetUInt32(source.GameToSramOffset(gameIndex, offset));
+		public static uint GetOffsetUInt32(this ISramFile source, int offset)
+		{
+			source.ThrowIfNull(nameof(source));
+			return BitConverter.ToUInt32(source.GetOffsetBytes(offset, 4));
+		}
+
+		public static byte[] GetOffsetBytes(this ISramFile source, int gameIndex, int offset, int length) => source.GetOffsetBytes(source.GameToSramOffset(gameIndex, offset), length);
+		public static byte[] GetOffsetBytes(this ISramFile source, int offset, int length = 1)
+		{
+			source.ThrowIfNull(nameof(source));
+			Requires.LessThanOrEqual(offset + length, source.SramBuffer.Length, nameof(offset));
+
+			return source.SramBuffer[offset..(offset + length)];
 		}
 
 		public static void SetOffsetValue(this ISramFile source, int gameIndex, int offset, byte value) => source.SetOffsetValue(source.GameToSramOffset(gameIndex, offset), value);
