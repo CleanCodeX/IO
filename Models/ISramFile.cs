@@ -17,6 +17,9 @@ namespace SramCommons.Models
 	/// <summary>Non generic interface for SRAM file</summary>
 	public interface ISramFile
 	{
+		int FirstGameOffset { get; }
+		int SramSize { get; }
+		int GameSize { get; }
 		int MaxGameIndex { get; }
 
 		/// <summary>Returns if the specified sram file is valid, if implemented</summary>
@@ -39,5 +42,7 @@ namespace SramCommons.Models
 
 		/// <summary>Saves SRAM buffer to stream</summary>
 		void Save(Stream stream);
+
+		int GameToSramOffset(int gameIndex, int offset) => FirstGameOffset + GameSize * gameIndex + offset;
 	}
 }

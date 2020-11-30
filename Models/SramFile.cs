@@ -56,9 +56,9 @@ namespace SramCommons.Models
 		public byte[] SramBuffer { get; protected set; } = Array.Empty<byte>();
 #nullable restore
 
-		protected int FirstGameOffset { get; }
-		protected int SramSize { get; }
-		protected int GameSize { get; }
+		public int FirstGameOffset { get; }
+		public int SramSize { get; }
+		public int GameSize { get; }
 
 		/// <summary>Max game index in SRAM file</summary>
 		public int MaxGameIndex { get; }
@@ -117,6 +117,7 @@ namespace SramCommons.Models
 
 		/// <summary>Sets the game's buffer from byte array</summary>
 		/// <param name="gameIndex">The game index the game buffer should be saved to</param>
+		/// <param name="buffer">The buffer to be saved</param>
 		public virtual void SetGameBytes(int gameIndex, byte[] buffer)
 		{
 			Requires.True(IsValidIndex(gameIndex), nameof(gameIndex));
