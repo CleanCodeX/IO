@@ -8,23 +8,6 @@ using SramCommons.Extensions;
 
 namespace SramCommons.Models
 {
-	public static class SramFileExtensions
-	{
-		public static void Load(this ISramFile source, string filepath)
-		{
-			Requires.FileExists(filepath, nameof(filepath));
-
-			source.Load(new FileStream(filepath, FileMode.Open));
-		}
-
-		public static void Save(this ISramFile source, string filepath)
-		{
-			Requires.NotNullOrEmpty(filepath, nameof(filepath));
-
-			source.Save(new FileStream(filepath, FileMode.Create));
-		}
-	}
-
 	public class SramFile<TSram, TSramGame> : SramFile, ISramFile<TSramGame>
 		where TSram : struct
 		where TSramGame : struct
@@ -67,7 +50,7 @@ namespace SramCommons.Models
 			where T : struct => Serializer.Deserialize<T>(buffer);
 	}
 
-	public class SramFile : ISramFile
+	public class SramFile : ISramFile, IRawSave
 	{
 #nullable disable
 		public byte[] SramBuffer { get; protected set; } = Array.Empty<byte>();
@@ -103,17 +86,20 @@ namespace SramCommons.Models
 		{
 			Requires.NotNull(stream, nameof(stream));
 
-			stream.Seek(0, SeekOrigin.End);
+			using (stream)
+			{
+				stream.Seek(0, SeekOrigin.End);
 
-			if (stream.Position != SramSize)
-				throw new InvalidSramFileException(SramError.InvalidSize);
+				if (stream.Position != SramSize)
+					throw new InvalidSramFileException(SramError.InvalidSize);
 
-			var sram = new byte[SramSize];
+				var sram = new byte[SramSize];
 
-			stream.Position = 0;
-			stream.Read(sram, 0, SramSize);
+				stream.Position = 0;
+				stream.Read(sram, 0, SramSize);
 
-			SramBuffer = sram;
+				SramBuffer = sram;
+			}
 		}
 
 		/// <summary>Gets a game's buffer as byte array</summary>
@@ -142,15 +128,26 @@ namespace SramCommons.Models
 
 		/// <summary>Saves whole SramBuffer to stream</summary>
 		/// <param name="stream">The stream to be saved to</param>
-		public virtual void Save(Stream stream)
+		public virtual void Save(Stream stream) => RawSave(stream);
+
+		protected virtual void OnRawSave() {}
+
+		/// <summary>Saves whole SramBuffer to stream</summary>
+		/// <param name="stream">The stream to be saved to</param>
+		public void RawSave(Stream stream)
 		{
 			Requires.NotNull(stream, nameof(stream));
 
-			stream.Position = 0;
-			stream.Write(SramBuffer, 0, SramSize);
+			OnRawSave();
 
-			if (stream.Position != SramSize)
-				throw new InvalidSramFileException(SramError.InvalidSize);
+			using (stream)
+			{
+				stream.Position = 0;
+				stream.Write(SramBuffer, 0, SramSize);
+
+				if (stream.Position != SramSize)
+					throw new InvalidSramFileException(SramError.InvalidSize);
+			}
 
 			IsModified = false;
 		}
