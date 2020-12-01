@@ -86,20 +86,17 @@ namespace SramCommons.Models
 		{
 			Requires.NotNull(stream, nameof(stream));
 
-			using (stream)
-			{
-				stream.Seek(0, SeekOrigin.End);
+			stream.Seek(0, SeekOrigin.End);
 
-				if (stream.Position != SramSize)
-					throw new InvalidSramFileException(SramError.InvalidSize);
+			if (stream.Position != SramSize)
+				throw new InvalidSramFileException(SramError.InvalidSize);
 
-				var sram = new byte[SramSize];
+			var sram = new byte[SramSize];
 
-				stream.Position = 0;
-				stream.Read(sram, 0, SramSize);
+			stream.Position = 0;
+			stream.Read(sram, 0, SramSize);
 
-				SramBuffer = sram;
-			}
+			SramBuffer = sram;
 		}
 
 		/// <summary>Gets a game's buffer as byte array</summary>
@@ -141,14 +138,11 @@ namespace SramCommons.Models
 
 			OnRawSave();
 
-			using (stream)
-			{
-				stream.Position = 0;
-				stream.Write(SramBuffer, 0, SramSize);
+			stream.Position = 0;
+			stream.Write(SramBuffer, 0, SramSize);
 
-				if (stream.Position != SramSize)
-					throw new InvalidSramFileException(SramError.InvalidSize);
-			}
+			if (stream.Position != SramSize)
+				throw new InvalidSramFileException(SramError.InvalidSize);
 
 			IsModified = false;
 		}

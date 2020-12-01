@@ -28,7 +28,7 @@ namespace SramCommons.Extensions
 		public static byte GetOffsetByte(this ISramFile source, int offset)
 		{
 			source.ThrowIfNull(nameof(source));
-			return (byte)BitConverter.ToUInt16(source.GetOffsetBytes(offset));
+			return source.GetOffsetBytes(offset, 1)[0];
 		}
 
 		public static uint GetOffsetUInt16(this ISramFile source, int gameIndex, int offset) => source.GetOffsetUInt16(source.GameToSramOffset(gameIndex, offset));
@@ -84,7 +84,7 @@ namespace SramCommons.Extensions
 			source.ThrowIfNull(nameof(source));
 			Requires.LessThan(offset, source.SramBuffer.Length, nameof(offset));
 
-			Array.Copy(source.SramBuffer, offset, bytes, 0, bytes.Length);
+			Array.Copy(bytes, 0, source.SramBuffer, offset, bytes.Length);
 		}
 
 		public static void RawSave(this IRawSave source, string filepath)
