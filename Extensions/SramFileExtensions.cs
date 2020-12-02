@@ -13,7 +13,8 @@ namespace SramCommons.Extensions
 			source.ThrowIfNull(nameof(source));
 			Requires.FileExists(filepath, nameof(filepath));
 
-			source.Load(new FileStream(filepath, FileMode.Open, FileAccess.Read));
+			using var stream = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+			source.Load(stream);
 		}
 
 		public static void Save(this ISramFile source, string filepath)
@@ -21,7 +22,8 @@ namespace SramCommons.Extensions
 			source.ThrowIfNull(nameof(source));
 			Requires.NotNullOrEmpty(filepath, nameof(filepath));
 
-			source.Save(new FileStream(filepath, FileMode.Create, FileAccess.Write));
+			using var stream = new FileStream(filepath, FileMode.Create, FileAccess.Write);
+			source.Save(stream);
 		}
 
 		public static byte GetOffsetByte(this ISramFile source, int gameIndex, int offset) => source.GetOffsetByte(source.GameToSramOffset(gameIndex, offset));
@@ -92,7 +94,8 @@ namespace SramCommons.Extensions
 			source.ThrowIfNull(nameof(source));
 			Requires.NotNullOrEmpty(filepath, nameof(filepath));
 
-			source.RawSave(new FileStream(filepath, FileMode.Create, FileAccess.Write));
+			using var stream = new FileStream(filepath, FileMode.Create, FileAccess.Write);
+			source.RawSave(stream);
 		}
 	}
 }
