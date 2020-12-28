@@ -120,7 +120,7 @@
   <data name="InvalidSramSize" xml:space="preserve">
     <value>SRAM size is invalid</value>
   </data>
-  <data name="NoValidGames" xml:space="preserve">
-    <value>There are no valid game slots in SRAM file</value>
+  <data name="NoValidSaveSlots" xml:space="preserve">
+    <value>There are no valid save slots in SRAM file</value>
   </data>
 </root>

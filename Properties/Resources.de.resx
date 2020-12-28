@@ -14,7 +14,7 @@
 	<data name="InvalidSramSize" xml:space="preserve">
 		<value>SRAM Größe ist falsch</value>
 	</data>
-	<data name="NoValidGames" xml:space="preserve">
-		<value>Es gibt keine validen Speicherslots in der SRAM-Datei</value>
+	<data name="NoValidSaveSlots" xml:space="preserve">
+		<value>Es gibt keine validen Speicherplätze in der SRAM-Datei</value>
 	</data>
 </root>

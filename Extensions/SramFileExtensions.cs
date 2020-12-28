@@ -26,28 +26,28 @@ namespace SramCommons.Extensions
 			source.Save(stream);
 		}
 
-		public static byte GetOffsetByte(this ISramFile source, int gameIndex, int offset) => source.GetOffsetByte(source.GameToSramOffset(gameIndex, offset));
+		public static byte GetOffsetByte(this ISramFile source, int slotIndex, int offset) => source.GetOffsetByte(source.SaveSlotToSramOffset(slotIndex, offset));
 		public static byte GetOffsetByte(this ISramFile source, int offset)
 		{
 			source.ThrowIfNull(nameof(source));
 			return source.GetOffsetBytes(offset, 1)[0];
 		}
 
-		public static uint GetOffsetUInt16(this ISramFile source, int gameIndex, int offset) => source.GetOffsetUInt16(source.GameToSramOffset(gameIndex, offset));
+		public static uint GetOffsetUInt16(this ISramFile source, int slotIndex, int offset) => source.GetOffsetUInt16(source.SaveSlotToSramOffset(slotIndex, offset));
 		public static uint GetOffsetUInt16(this ISramFile source, int offset)
 		{
 			source.ThrowIfNull(nameof(source));
 			return BitConverter.ToUInt16(source.GetOffsetBytes(offset, 2));
 		}
 
-		public static uint GetOffsetUInt32(this ISramFile source, int gameIndex, int offset) => source.GetOffsetUInt32(source.GameToSramOffset(gameIndex, offset));
+		public static uint GetOffsetUInt32(this ISramFile source, int slotIndex, int offset) => source.GetOffsetUInt32(source.SaveSlotToSramOffset(slotIndex, offset));
 		public static uint GetOffsetUInt32(this ISramFile source, int offset)
 		{
 			source.ThrowIfNull(nameof(source));
 			return BitConverter.ToUInt32(source.GetOffsetBytes(offset, 4));
 		}
 
-		public static byte[] GetOffsetBytes(this ISramFile source, int gameIndex, int offset, int length) => source.GetOffsetBytes(source.GameToSramOffset(gameIndex, offset), length);
+		public static byte[] GetOffsetBytes(this ISramFile source, int slotIndex, int offset, int length) => source.GetOffsetBytes(source.SaveSlotToSramOffset(slotIndex, offset), length);
 		public static byte[] GetOffsetBytes(this ISramFile source, int offset, int length = 1)
 		{
 			source.ThrowIfNull(nameof(source));
@@ -56,7 +56,7 @@ namespace SramCommons.Extensions
 			return source.SramBuffer[offset..(offset + length)];
 		}
 
-		public static void SetOffsetValue(this ISramFile source, int gameIndex, int offset, byte value) => source.SetOffsetValue(source.GameToSramOffset(gameIndex, offset), value);
+		public static void SetOffsetValue(this ISramFile source, int slotIndex, int offset, byte value) => source.SetOffsetValue(source.SaveSlotToSramOffset(slotIndex, offset), value);
 
 		public static void SetOffsetValue(this ISramFile source, int offset, byte value)
 		{
@@ -64,7 +64,7 @@ namespace SramCommons.Extensions
 			source.SetOffsetBytes(offset, new [] { value });
 		}
 
-		public static void SetOffsetValue(this ISramFile source, int gameIndex, int offset, ushort value) => source.SetOffsetValue(source.GameToSramOffset(gameIndex, offset), value);
+		public static void SetOffsetValue(this ISramFile source, int slotIndex, int offset, ushort value) => source.SetOffsetValue(source.SaveSlotToSramOffset(slotIndex, offset), value);
 
 		public static void SetOffsetValue(this ISramFile source, int offset, ushort value)
 		{
@@ -72,7 +72,7 @@ namespace SramCommons.Extensions
 			source.SetOffsetBytes(offset, BitConverter.GetBytes(value));
 		}
 
-		public static void SetOffsetValue(this ISramFile source, int gameIndex, int offset, uint value) => source.SetOffsetValue(source.GameToSramOffset(gameIndex, offset), value);
+		public static void SetOffsetValue(this ISramFile source, int slotIndex, int offset, uint value) => source.SetOffsetValue(source.SaveSlotToSramOffset(slotIndex, offset), value);
 
 		public static void SetOffsetValue(this ISramFile source, int offset, uint value)
 		{
@@ -80,7 +80,7 @@ namespace SramCommons.Extensions
 			source.SetOffsetBytes(offset, BitConverter.GetBytes(value));
 		}
 
-		public static void SetOffsetBytes(this ISramFile source, int gameIndex, int offset, byte[] bytes) => source.SetOffsetBytes(source.GameToSramOffset(gameIndex, offset), bytes);
+		public static void SetOffsetBytes(this ISramFile source, int slotIndex, int offset, byte[] bytes) => source.SetOffsetBytes(source.SaveSlotToSramOffset(slotIndex, offset), bytes);
 		public static void SetOffsetBytes(this ISramFile source, int offset, byte[] bytes)
 		{
 			source.ThrowIfNull(nameof(source));

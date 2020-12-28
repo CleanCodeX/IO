@@ -9,8 +9,8 @@ namespace SramCommons.Exceptions
 	{
 		[DisplayNameLocalized(nameof(Res.InvalidSramSize), typeof(Res))]
 		InvalidSize,
-		[DisplayNameLocalized(nameof(Res.NoValidGames), typeof(Res))]
-		NoValidGames
+		[DisplayNameLocalized(nameof(Res.NoValidSaveSlots), typeof(Res))]
+		NoValidSaveSlots
 	}
 
 	public class InvalidSramFileException : Exception

@@ -70,11 +70,11 @@ namespace SramCommons.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die There are no valid games in SRAM file ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die There are no valid save slots in SRAM file ähnelt.
         /// </summary>
-        internal static string NoValidGames {
+        internal static string NoValidSaveSlots {
             get {
-                return ResourceManager.GetString("NoValidGames", resourceCulture);
+                return ResourceManager.GetString("NoValidSaveSlots", resourceCulture);
             }
         }
     }
