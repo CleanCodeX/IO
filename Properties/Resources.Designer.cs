@@ -22,7 +22,7 @@ namespace SramCommons.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace SramCommons.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SramCommons.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace SramCommons.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SramCommons.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die SRAM size is invalid ähnelt.
         /// </summary>
-        internal static string InvalidSramSize {
+        public static string InvalidSramSize {
             get {
                 return ResourceManager.GetString("InvalidSramSize", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SramCommons.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die There are no valid save slots in SRAM file ähnelt.
         /// </summary>
-        internal static string NoValidSaveSlots {
+        public static string NoValidSaveSlots {
             get {
                 return ResourceManager.GetString("NoValidSaveSlots", resourceCulture);
             }
