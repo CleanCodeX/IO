@@ -7,9 +7,9 @@ namespace SramCommons.Exceptions
 {
 	public enum SramError
 	{
-		[DisplayNameLocalized(nameof(Res.InvalidSramSize), typeof(Res))]
+		[DisplayNameLocalized(nameof(Res.ErrorInvalidSramSize), typeof(Res))]
 		InvalidSize,
-		[DisplayNameLocalized(nameof(Res.NoValidSaveSlots), typeof(Res))]
+		[DisplayNameLocalized(nameof(Res.ErrorNoValidSaveSlots), typeof(Res))]
 		NoValidSaveSlots
 	}
 
