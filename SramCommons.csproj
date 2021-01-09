@@ -4,9 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>1.0.3-a2</Version>
+    <Version>1.0.3-a3</Version>
     <Authors>CleanCodeX</Authors>
-    <Company>CleanCodeX</Company>
+    <Company>KST</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Common functionality to load and save a SRAM (srm) file.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -15,6 +15,7 @@
     <PackageId>CCX.SramCommons</PackageId>
     <RepositoryUrl>https://github.com/CleanCodeX/SramCommons</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
+    <PackageTags>SRAM, SNES</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
