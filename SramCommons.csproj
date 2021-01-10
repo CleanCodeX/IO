@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
     <Version>1.0.3-a3</Version>
-    <Authors>CleanCodeX</Authors>
+    <Authors>CleanCoderX</Authors>
     <Company>KST</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Common functionality to load and save a SRAM (srm) file.</Description>
