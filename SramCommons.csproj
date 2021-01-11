@@ -15,6 +15,7 @@
     <PackageId>CCX.SramCommons</PackageId>
     <RepositoryUrl>https://github.com/CleanCodeX/SramCommons</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
+    <Product>SramCommons</Product>
     <PackageTags>SRAM, SNES</PackageTags>
   </PropertyGroup>
 
