@@ -4,11 +4,11 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>1.0.3-a3</Version>
+    <Version>1.0.3-a4</Version>
     <Authors>CleanCoderX</Authors>
     <Company>KST</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Common functionality to load and save a SRAM (srm) file.</Description>
+    <Description>Common functionality to load and save a S-RAM (srm) file.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <OutputType>Library</OutputType>
@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/CleanCodeX/SramCommons</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
     <Product>SramCommons</Product>
-    <PackageTags>SRAM, SNES</PackageTags>
+    <PackageTags>SRAM, S-RAM, SNES, Super Nintendo, Super Famicon</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
