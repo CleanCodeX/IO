@@ -15,14 +15,14 @@ namespace SramCommons.Extensions
 
 		public static MemoryStream ToStream(this byte[] source) => new(source);
 
-		public static string FormatAsString(this byte[] source)
+		public static string FormatAsString(this byte[] source, string? delimiter = null)
 		{
 			var sb = new StringBuilder(source.Length);
 
 			for (var i = 0; i < source.Length; i++)
 			{
 				if (i > 0)
-					sb.Append(", ");
+					sb.Append(delimiter ?? ", ");
 
 				sb = sb.Append(source[i]);
 			}
