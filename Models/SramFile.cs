@@ -12,7 +12,16 @@ namespace SramCommons.Models
 		where TSram : struct
 		where TSaveSlot : struct
 	{
-		public virtual TSram Sram { get; }
+		public virtual TSram Sram { get; protected set; }
+
+		/// <summary>
+		/// Creates an instance of SramFile and loads content from stream into SramBuffer and Sram strcuture
+		/// </summary>
+		/// <param name="buffer">The buffer which will be copied</param>
+		/// <param name="firstSlotOffset">The offset of first save slot in sram buffer</param>
+		/// <param name="maxSlotIndex">The maximum (zero based) index of save slots the sram file can contain</param>
+		// ReSharper disable once VirtualMemberCallInConstructor
+		public SramFile(byte[] buffer, int firstSlotOffset, int maxSlotIndex) : base(Marshal.SizeOf<TSram>(), Marshal.SizeOf<TSaveSlot>(), firstSlotOffset, maxSlotIndex) => Load(buffer);
 
 		/// <summary>
 		/// Creates an instance of SramFile and loads content from stream into SramBuffer and Sram strcuture
@@ -20,12 +29,22 @@ namespace SramCommons.Models
 		/// <param name="stream">The stream the buffers will be loaded from</param>
 		/// <param name="firstSlotOffset">The offset of first save slot in sram buffer</param>
 		/// <param name="maxSlotIndex">The maximum (zero based) index of save slots the sram file can contain</param>
-		public SramFile(Stream stream, int firstSlotOffset, int maxSlotIndex) : base(Marshal.SizeOf<TSram>(), Marshal.SizeOf<TSaveSlot>(), firstSlotOffset, maxSlotIndex)
+		// ReSharper disable once VirtualMemberCallInConstructor
+		public SramFile(Stream stream, int firstSlotOffset, int maxSlotIndex) : base(Marshal.SizeOf<TSram>(), Marshal.SizeOf<TSaveSlot>(), firstSlotOffset, maxSlotIndex) => Load(stream);
+
+		public override void Load(byte[] buffer)
 		{
-			// ReSharper disable once VirtualMemberCallInConstructor
-			Load(stream);
-			Sram = GetStructFromBuffer<TSram>(SramBuffer);
+			base.Load(buffer);
+			GetStructFromBuffer();
 		}
+
+		public override void Load(Stream stream)
+		{
+			base.Load(stream);
+			GetStructFromBuffer();
+		}
+
+		private void GetStructFromBuffer() => Sram = GetStructFromBuffer<TSram>(SramBuffer);
 
 		/// <summary>Gets the save slot at specified save slot index</summary>
 		/// <param name="slotIndex">The (zero based) save slot index the save slot should be loaded from</param>
@@ -79,6 +98,16 @@ namespace SramCommons.Models
 		public virtual bool IsValid(int slotIndex) => IsValidIndex(slotIndex);
 
 		private bool IsValidIndex(int slotIndex) => slotIndex >= 0 && slotIndex <= MaxSaveSlotIndex;
+
+		/// <summary>Loads whole SramBuffer from stream</summary>
+		/// <param name="buffer">The buffer to be copied from</param>
+		public virtual void Load(byte[] buffer)
+		{
+			Requires.NotNull(buffer, nameof(buffer));
+
+			SramBuffer = new byte[buffer.Length];
+			Array.Copy(buffer, SramBuffer, buffer.Length);
+		}
 
 		/// <summary>Loads whole SramBuffer from stream</summary>
 		/// <param name="stream">The stream to be loaded from</param>
