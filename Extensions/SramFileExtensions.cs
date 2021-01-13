@@ -51,9 +51,9 @@ namespace SramCommons.Extensions
 		public static byte[] GetOffsetBytes(this ISramFile source, int offset, int length = 1)
 		{
 			source.ThrowIfNull(nameof(source));
-			Requires.LessThanOrEqual(offset + length, source.SramBuffer.Length, nameof(offset));
+			Requires.LessThanOrEqual(offset + length, source.Buffer.Length, nameof(offset));
 
-			return source.SramBuffer[offset..(offset + length)];
+			return source.Buffer[offset..(offset + length)];
 		}
 
 		public static void SetOffsetValue(this ISramFile source, int slotIndex, int offset, byte value) => source.SetOffsetValue(source.SaveSlotToSramOffset(slotIndex, offset), value);
@@ -84,9 +84,9 @@ namespace SramCommons.Extensions
 		public static void SetOffsetBytes(this ISramFile source, int offset, byte[] bytes)
 		{
 			source.ThrowIfNull(nameof(source));
-			Requires.LessThan(offset, source.SramBuffer.Length, nameof(offset));
+			Requires.LessThan(offset, source.Buffer.Length, nameof(offset));
 
-			Array.Copy(bytes, 0, source.SramBuffer, offset, bytes.Length);
+			Array.Copy(bytes, 0, source.Buffer, offset, bytes.Length);
 		}
 
 		public static void RawSave(this IRawSave source, string filepath)

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.IO;
+using SramCommons.Helpers;
 
 namespace SramCommons.Extensions
 {
@@ -9,42 +9,32 @@ namespace SramCommons.Extensions
 		/// Convert the bytes to a structure in host-endian format (little-endian on PCs).
 		/// To use with big-endian data, reverse all of the data bytes and create a struct that is in the reverse order of the data.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="type">The structure's type</typeparam>
 		/// <param name="buffer">The buffer.</param>
 		/// <returns></returns>
-		public static T ToStructureHostEndian<T>(this byte[] buffer) where T : struct
-		{
-			var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-			var stuff = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T))!;
-			handle.Free();
-			return stuff;
-		}
+		public static T ToStruct<T>(this byte[] source) where T : struct => StructSerializer.Deserialize<T>(source);
 
 		/// <summary>
 		/// Converts the struct to a byte array in the endianness of this machine.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="structure">The structure.</param>
+		/// <param name="source">The structure.</param>
 		/// <returns></returns>
-		public static byte[] ToBytesHostEndian<T>(this T structure) 
-		{
-			var size = Marshal.SizeOf(structure);
-			var buffer = new byte[size];
-			var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-			Marshal.StructureToPtr(structure!, handle.AddrOfPinnedObject(), true);
-			handle.Free();
-			return buffer;
-		}
+		public static byte[] ToBytes<T>(this T source) 
+			where T : struct => StructSerializer.Serialize(source);
 
-		public static T ByteArrayToStructure<T>(this byte[] bytes) where T : struct
-			=> (T)ByteArrayToStructure(bytes, typeof(T))!;
-
-		public static object? ByteArrayToStructure(this byte[] bytes, Type type)
+		/// <summary>
+		/// Converts the struct to a memory stream in the endianness of this machine.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="source">The structure.</param>
+		/// <returns></returns>
+		public static MemoryStream ToStream<T>(this T source)
+			where T : struct
 		{
-			var handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-			var stuff = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), type);
-			handle.Free();
-			return stuff;
+			var ms = new MemoryStream();
+			StructSerializer.Serialize(ms, source);
+			return ms;
 		}
 	}
 }

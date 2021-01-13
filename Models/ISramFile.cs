@@ -18,7 +18,7 @@ namespace SramCommons.Models
 	public interface ISramFile
 	{
 		int FirstSaveSlotOffset { get; }
-		int SramSize { get; }
+		int BufferSize { get; }
 		int SaveSlotSize { get; }
 		int MaxSaveSlotIndex { get; }
 
@@ -29,7 +29,7 @@ namespace SramCommons.Models
 		bool IsValid(int slotIndex);
 
 		/// <summary>The buffer of the whole SRAM file</summary>
-		byte[] SramBuffer { get; }
+		byte[] Buffer { get; }
 
 		/// <summary>Gets the save slot area at specified save slot index</summary>
 		byte[] GetSaveSlotBytes(int slotIndex);

@@ -44,7 +44,7 @@ namespace SramCommons.Models
 			GetStructFromBuffer();
 		}
 
-		private void GetStructFromBuffer() => Sram = GetStructFromBuffer<TSram>(SramBuffer);
+		private void GetStructFromBuffer() => Sram = GetStructFromBuffer<TSram>(Buffer);
 
 		/// <summary>Gets the save slot at specified save slot index</summary>
 		/// <param name="slotIndex">The (zero based) save slot index the save slot should be loaded from</param>
@@ -60,23 +60,23 @@ namespace SramCommons.Models
 		/// <param name="slot">The save slot structure to be set</param>
 		public virtual void SetSaveSlot(int slotIndex, TSaveSlot slot)
 		{
-			var buffer = slot.ToBytesHostEndian();
+			var buffer = slot.ToBytes();
 
 			SetSaveSlotBytes(slotIndex, buffer);
 		}
 
 		private static T GetStructFromBuffer<T>(byte[] buffer)
-			where T : struct => Serializer.Deserialize<T>(buffer);
+			where T : struct => StructSerializer.Deserialize<T>(buffer);
 	}
 
 	public class SramFile : ISramFile, IRawSave
 	{
 #nullable disable
-		public byte[] SramBuffer { get; protected set; } = Array.Empty<byte>();
+		public byte[] Buffer { get; protected set; } = Array.Empty<byte>();
 #nullable restore
 
 		public int FirstSaveSlotOffset { get; }
-		public int SramSize { get; }
+		public int BufferSize { get; }
 		public int SaveSlotSize { get; }
 
 		/// <summary>Max save slot index in SRAM file</summary>
@@ -86,7 +86,7 @@ namespace SramCommons.Models
 
 		// ReSharper disable once VirtualMemberCallInConstructor
 		public SramFile(Stream stream, int sramSize, int slotSize, int firstSlotOffset, int maxSlotIndex) : this(sramSize, slotSize, firstSlotOffset, maxSlotIndex) => Load(stream);
-		public SramFile(int sramSize, int slotSize, int firstSlotOffset, int maxSlotIndex) => (SramSize, SaveSlotSize, FirstSaveSlotOffset, MaxSaveSlotIndex) = (sramSize, slotSize, firstSlotOffset, maxSlotIndex);
+		public SramFile(int sramSize, int slotSize, int firstSlotOffset, int maxSlotIndex) => (BufferSize, SaveSlotSize, FirstSaveSlotOffset, MaxSaveSlotIndex) = (sramSize, slotSize, firstSlotOffset, maxSlotIndex);
 
 		/// <summary>Overridable method to indicate that the SRAM file in valid state. Default is true.</summary>
 		/// <returns>base implementation returns always <langword>true</langword></returns>
@@ -105,8 +105,8 @@ namespace SramCommons.Models
 		{
 			Requires.NotNull(buffer, nameof(buffer));
 
-			SramBuffer = new byte[buffer.Length];
-			Array.Copy(buffer, SramBuffer, buffer.Length);
+			Buffer = new byte[buffer.Length];
+			Array.Copy(buffer, Buffer, buffer.Length);
 		}
 
 		/// <summary>Loads whole SramBuffer from stream</summary>
@@ -117,15 +117,15 @@ namespace SramCommons.Models
 
 			stream.Seek(0, SeekOrigin.End);
 
-			if (stream.Position != SramSize)
+			if (stream.Position != BufferSize)
 				throw new InvalidSramFileException(SramError.InvalidSize);
 
-			var sram = new byte[SramSize];
+			var sram = new byte[BufferSize];
 
 			stream.Position = 0;
-			stream.Read(sram, 0, SramSize);
+			stream.Read(sram, 0, BufferSize);
 
-			SramBuffer = sram;
+			Buffer = sram;
 		}
 
 		/// <summary>Gets a save slot's buffer as byte array</summary>
@@ -138,7 +138,7 @@ namespace SramCommons.Models
 			var startOffset = FirstSaveSlotOffset + slotIndex * SaveSlotSize;
 			var endOffset = startOffset + SaveSlotSize;
 
-			return SramBuffer[startOffset..endOffset];
+			return Buffer[startOffset..endOffset];
 		}
 
 		/// <summary>Sets the save slot's buffer from byte array</summary>
@@ -150,7 +150,7 @@ namespace SramCommons.Models
 
 			var startOffset = FirstSaveSlotOffset + slotIndex * SaveSlotSize;
 
-			Array.Copy(buffer, 0, SramBuffer, startOffset, buffer.Length);
+			Array.Copy(buffer, 0, Buffer, startOffset, buffer.Length);
 		}
 
 		/// <summary>Saves whole SramBuffer to stream</summary>
@@ -168,9 +168,9 @@ namespace SramCommons.Models
 			OnRawSave();
 
 			stream.Position = 0;
-			stream.Write(SramBuffer, 0, SramSize);
+			stream.Write(Buffer, 0, BufferSize);
 
-			if (stream.Position != SramSize)
+			if (stream.Position != BufferSize)
 				throw new InvalidSramFileException(SramError.InvalidSize);
 
 			IsModified = false;

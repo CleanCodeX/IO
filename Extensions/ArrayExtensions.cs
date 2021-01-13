@@ -1,10 +1,20 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 
 namespace SramCommons.Extensions
 {
 	public static class ArrayExtensions
 	{
+		public static MemoryStream? ToStreamIfNotNull(this byte[]? source)
+		{
+			if (source is null) return null;
+
+			return new(source);
+		}
+
+		public static MemoryStream ToStream(this byte[] source) => new(source);
+
 		public static string FormatAsString(this byte[] source)
 		{
 			var sb = new StringBuilder(source.Length);
