@@ -6,6 +6,8 @@ namespace SramCommons.Extensions
 {
 	public static class ArrayExtensions
 	{
+		public static string AsString(this char[] source) => new(source);
+
 		public static MemoryStream? ToStreamIfNotNull(this byte[]? source)
 		{
 			if (source is null) return null;
