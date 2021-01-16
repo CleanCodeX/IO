@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace SramCommons.Extensions
 {
 	public static class ArrayExtensions
 	{
-		public static string AsString(this char[] source) => new(source);
+		public static string AsString([NotNull] this char[] source) => new(source);
 
 		public static MemoryStream? ToStreamIfNotNull(this byte[]? source)
 		{
@@ -15,11 +16,11 @@ namespace SramCommons.Extensions
 			return new(source);
 		}
 
-		public static MemoryStream ToStream(this byte[] source) => new(source);
+		public static MemoryStream ToStream([NotNull] this byte[] source) => new(source);
 
-		public static string FormatAsString(this byte[] source, string? delimiter = null)
+		public static string FormatAsString([NotNull] this byte[] source, string? delimiter = null)
 		{
-			var sb = new StringBuilder(source.Length);
+			StringBuilder sb = new(source.Length);
 
 			for (var i = 0; i < source.Length; i++)
 			{
@@ -32,21 +33,21 @@ namespace SramCommons.Extensions
 			return sb.ToString();
 		}
 
-		public static string GetString(this byte[] buffer)
+		public static string GetString([NotNull] this byte[] buffer)
 		{
 			var chars = new char[buffer.Length / sizeof(char)];
 			Buffer.BlockCopy(buffer, 0, chars, 0, buffer.Length);
 			return new string(chars);
 		}
 
-		public static string GetString(this char[] buffer)
+		public static string GetString([NotNull] this char[] buffer)
 		{
 			var chars = new char[buffer.Length];
 			Buffer.BlockCopy(buffer, 0, chars, 0, buffer.Length);
 			return new string(chars);
 		}
 
-		public static string GetStringAscii(this byte[] buffer)
+		public static string GetStringAscii([NotNull] this byte[] buffer)
 		{
 			var count = Array.IndexOf<byte>(buffer, 0, 0);
 			if (count < 0) count = buffer.Length;

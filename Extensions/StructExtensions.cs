@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using Common.Shared.Min.Extensions;
 using SramCommons.Helpers;
 
 namespace SramCommons.Extensions
@@ -12,7 +14,7 @@ namespace SramCommons.Extensions
 		/// <typeparam name="T">The structure's type</typeparam>
 		/// <param name="source">The buffer.</param>
 		/// <returns></returns>
-		public static T ToStruct<T>(this byte[] source) where T : struct => StructSerializer.Deserialize<T>(source);
+		public static T ToStruct<T>([NotNull] this byte[] source) where T : struct => StructSerializer.Deserialize<T>(source.GetOrThrowIfNull(nameof(source)));
 
 		/// <summary>
 		/// Converts the struct to a byte array in the endianness of this machine.
@@ -20,7 +22,7 @@ namespace SramCommons.Extensions
 		/// <typeparam name="T"></typeparam>
 		/// <param name="source">The structure.</param>
 		/// <returns></returns>
-		public static byte[] ToBytes<T>(this T source) 
+		public static byte[] ToBytes<T>([NotNull] this T source) 
 			where T : struct => StructSerializer.Serialize(source);
 
 		/// <summary>
@@ -29,9 +31,11 @@ namespace SramCommons.Extensions
 		/// <typeparam name="T"></typeparam>
 		/// <param name="source">The structure.</param>
 		/// <returns></returns>
-		public static MemoryStream ToStream<T>(this T source)
+		public static MemoryStream ToStream<T>([NotNull] this T source)
 			where T : struct
 		{
+			source.ThrowIfNull(nameof(source));
+
 			var ms = new MemoryStream();
 			StructSerializer.Serialize(ms, source);
 			return ms;
