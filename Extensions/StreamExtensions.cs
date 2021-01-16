@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace SramCommons.Extensions
 {
-	public static partial class StreamExtensions
+	public static class StreamExtensions
 	{
 		public static T Read<T>(this Stream source) where T: struct
 		{

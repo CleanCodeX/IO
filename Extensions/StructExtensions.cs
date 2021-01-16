@@ -9,8 +9,8 @@ namespace SramCommons.Extensions
 		/// Convert the bytes to a structure in host-endian format (little-endian on PCs).
 		/// To use with big-endian data, reverse all of the data bytes and create a struct that is in the reverse order of the data.
 		/// </summary>
-		/// <typeparam name="type">The structure's type</typeparam>
-		/// <param name="buffer">The buffer.</param>
+		/// <typeparam name="T">The structure's type</typeparam>
+		/// <param name="source">The buffer.</param>
 		/// <returns></returns>
 		public static T ToStruct<T>(this byte[] source) where T : struct => StructSerializer.Deserialize<T>(source);
 
