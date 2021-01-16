@@ -117,10 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrorInvalidSramSize" xml:space="preserve">
-    <value>SRAM size is invalid</value>
-  </data>
-  <data name="ErrorNoValidSaveSlots" xml:space="preserve">
-    <value>There are no valid save slots in SRAM file</value>
+  <data name="ErrorInvalidSize" xml:space="preserve">
+    <value>Size is invalid</value>
   </data>
 </root>

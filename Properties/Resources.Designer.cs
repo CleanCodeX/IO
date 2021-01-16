@@ -61,20 +61,11 @@ namespace SramCommons.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die SRAM size is invalid ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Size is invalid ähnelt.
         /// </summary>
-        public static string ErrorInvalidSramSize {
+        public static string ErrorInvalidSize {
             get {
-                return ResourceManager.GetString("ErrorInvalidSramSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die There are no valid save slots in SRAM file ähnelt.
-        /// </summary>
-        public static string ErrorNoValidSaveSlots {
-            get {
-                return ResourceManager.GetString("ErrorNoValidSaveSlots", resourceCulture);
+                return ResourceManager.GetString("ErrorInvalidSize", resourceCulture);
             }
         }
     }
