@@ -7,8 +7,6 @@ namespace SramCommons.Extensions
 {
 	public static class ArrayExtensions
 	{
-		public static string AsString([NotNull] this char[] source) => new(source);
-
 		public static MemoryStream? ToStreamIfNotNull(this byte[]? source)
 		{
 			if (source is null) return null;
@@ -16,8 +14,17 @@ namespace SramCommons.Extensions
 			return new(source);
 		}
 
+		/// <summary>Creates a memory stream</summary>
+		/// <param name="source"></param>
+		/// <returns>New memory stream</returns>
 		public static MemoryStream ToStream([NotNull] this byte[] source) => new(source);
 
+		/// <summary>
+		/// Formates bytes with a delimiter.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="delimiter">The delimiter for sepa</param>
+		/// <returns></returns>
 		public static string FormatAsString([NotNull] this byte[] source, string? delimiter = null)
 		{
 			StringBuilder sb = new(source.Length);
@@ -33,25 +40,34 @@ namespace SramCommons.Extensions
 			return sb.ToString();
 		}
 
-		public static string GetString([NotNull] this byte[] buffer)
+		/// <returns>Non 0-char trimmed string</returns>
+		public static string GetString([NotNull] this byte[] source)
 		{
-			var chars = new char[buffer.Length / sizeof(char)];
-			Buffer.BlockCopy(buffer, 0, chars, 0, buffer.Length);
+			var chars = new char[source.Length / sizeof(char)];
+			Buffer.BlockCopy(source, 0, chars, 0, source.Length);
 			return new string(chars);
 		}
 
-		public static string GetString([NotNull] this char[] buffer)
+		/// <returns>Non 0-char trimmed string</returns>
+		public static string AsString([NotNull] this char[] source) => new(source);
+
+		/// <returns>0-char trimmed string</returns>
+		public static string GetString([NotNull] this char[] source)
 		{
-			var chars = new char[buffer.Length];
-			Buffer.BlockCopy(buffer, 0, chars, 0, buffer.Length);
+			var chars = new char[source.Length];
+			Buffer.BlockCopy(source, 0, chars, 0, source.Length);
 			return new string(chars);
 		}
 
-		public static string GetStringAscii([NotNull] this byte[] buffer)
+		/// <returns>0-char trimmed ASCII string</returns>
+		public static string GetStringAscii([NotNull] this byte[] source)
 		{
-			var count = Array.IndexOf<byte>(buffer, 0, 0);
-			if (count < 0) count = buffer.Length;
-			return Encoding.ASCII.GetString(buffer, 0, count);
+			var count = Array.IndexOf<byte>(source, 0, 0);
+			if (count < 0) count = source.Length;
+			return Encoding.ASCII.GetString(source, 0, count);
 		}
+
+		/// <returns>Array of chars</returns>
+		public static char[] GetChars([NotNull] this byte[] source) => Encoding.ASCII.GetChars(source);
 	}
 }
