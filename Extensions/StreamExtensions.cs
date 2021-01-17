@@ -3,12 +3,22 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using Common.Shared.Min.Extensions;
-using Common.Shared.Min.Helpers;
 
 namespace SramCommons.Extensions
 {
 	public static class StreamExtensions
 	{
+		public static MemoryStream GetSlice([NotNull] this Stream source, int length) => source.GetSlice(0, length);
+		public static MemoryStream GetSlice([NotNull] this Stream source, int streamPosition, int length)
+		{
+			var buffer = new byte[length];
+
+			source.Position = streamPosition;
+			source.Read(buffer, 0, length);
+
+			return new(buffer);
+		}
+
 		/// <summary>
 		/// Copies the contents of input to output. Doesn't close either stream.
 		/// </summary>
