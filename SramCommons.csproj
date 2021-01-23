@@ -4,11 +4,11 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>1.2.0-a2</Version>
+    <Version>1.2.1-a1</Version>
     <Authors>CleanCoderX</Authors>
     <Company>KST</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Common functionality to load and save especially S-RAM (srm) files.</Description>
+    <Description>Common functionality to load and save S-RAM and W-RAM files.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <OutputType>Library</OutputType>
@@ -20,13 +20,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
@@ -35,7 +35,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="CCX.Common.Shared.Min" Version="1.1.3-a1" />
+    <PackageReference Include="CCX.Common.Shared.Min" Version="1.1.3-a2" />
   </ItemGroup>
 
 	<ItemGroup>

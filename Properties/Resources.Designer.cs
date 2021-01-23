@@ -61,6 +61,15 @@ namespace SramCommons.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die None ähnelt.
+        /// </summary>
+        public static string EnumNone {
+            get {
+                return ResourceManager.GetString("EnumNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Size is invalid ähnelt.
         /// </summary>
         public static string ErrorInvalidSize {

@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+using Common.Shared.Min.Extensions;
 
 namespace SramCommons.Extensions
 {
@@ -27,6 +28,7 @@ namespace SramCommons.Extensions
 		/// <returns></returns>
 		public static string FormatAsString([NotNull] this byte[] source, string? delimiter = null)
 		{
+			source.ThrowIfNull(nameof(source));
 			StringBuilder sb = new(source.Length);
 
 			for (var i = 0; i < source.Length; i++)
@@ -43,17 +45,16 @@ namespace SramCommons.Extensions
 		/// <returns>Non 0-char trimmed string</returns>
 		public static string GetString([NotNull] this byte[] source)
 		{
+			source.ThrowIfNull(nameof(source));
 			var chars = new char[source.Length / sizeof(char)];
 			Buffer.BlockCopy(source, 0, chars, 0, source.Length);
 			return new string(chars);
 		}
 
-		/// <returns>Non 0-char trimmed string</returns>
-		public static string AsString([NotNull] this char[] source) => new(source);
-
 		/// <returns>0-char trimmed string</returns>
 		public static string GetString([NotNull] this char[] source)
 		{
+			source.ThrowIfNull(nameof(source));
 			var chars = new char[source.Length];
 			Buffer.BlockCopy(source, 0, chars, 0, source.Length);
 			return new string(chars);
@@ -62,6 +63,7 @@ namespace SramCommons.Extensions
 		/// <returns>0-char trimmed ASCII string</returns>
 		public static string GetStringAscii([NotNull] this byte[] source)
 		{
+			source.ThrowIfNull(nameof(source));
 			var count = Array.IndexOf<byte>(source, 0, 0);
 			if (count < 0) count = source.Length;
 			return Encoding.ASCII.GetString(source, 0, count);

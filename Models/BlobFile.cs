@@ -19,19 +19,19 @@ namespace SramCommons.Models
 		public bool IsModified { get; set; }
 
 		/// <summary>
-		/// Creates an instance of <see c="BlobFile"/> and loads content from stream into buffer and struct
+		/// Creates an instance of <see cref="BlobFile"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="stream">The stream which will be copied from</param>
 		public BlobFile(Stream stream) : this((int)stream.Length) => Load(stream);
 
 		/// <summary>
-		/// Creates an instance of <see c="BlobFile"/> and loads content from buffer into buffer and struct
+		/// Creates an instance of <see cref="BlobFile"/> and loads content from buffer into buffer and struct
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied from</param>
 		public BlobFile(byte[] buffer) : this(buffer.Length) => Load(buffer);
 
 		/// <summary>
-		/// Creates an instance of <see c="BlobFile"/> and loads content from stream into buffer and struct
+		/// Creates an instance of <see cref="BlobFile"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="size">The size of the buffer to create</param>
 		public BlobFile(int size) => Size = size;

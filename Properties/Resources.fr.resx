@@ -14,4 +14,7 @@
 	<data name="ErrorInvalidSize" xml:space="preserve">
 		<value>La taille du fichier n'est pas valide</value>
 	</data>
+	<data name="EnumNone" xml:space="preserve">
+		<value>Aucune</value>
+	</data>
 </root>

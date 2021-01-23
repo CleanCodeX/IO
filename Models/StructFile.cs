@@ -14,24 +14,24 @@ namespace SramCommons.Models
 		public virtual TStruct Struct { get; protected set; }
 
 		/// <summary>
-		/// Creates an instance of <see c="StructFile{TStruct}"/> and loads content from buffer into buffer and struct
+		/// Creates an instance of <see cref="StructFile{TStruct}"/> and loads content from buffer into buffer and struct
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied</param>
 		public StructFile(byte[] buffer) : this() => Load(buffer);
 
 		/// <summary>
-		/// Creates an instance of <see c="StructFile{TStruct}"/> and loads content from stream into buffer and struct
+		/// Creates an instance of <see cref="StructFile{TStruct}"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="stream">The stream the buffers will be loaded from</param>
 		public StructFile(Stream stream) : this() => Load(stream);
 
 		/// <summary>
-		/// Creates an instance of <see c="StructFile{TStruct}"/> and loads content from stream into buffer and struct
+		/// Creates an instance of <see cref="StructFile{TStruct}"/> and loads content from stream into buffer and struct
 		/// </summary>
 		public StructFile(int size) : base(size) { }
 
 		/// <summary>
-		/// Creates an instance of <see c="StructFile{TStruct}"/> and loads content from stream into buffer and struct
+		/// Creates an instance of <see cref="StructFile{TStruct}"/> and loads content from stream into buffer and struct
 		/// </summary>
 		public StructFile() : base(Marshal.SizeOf<TStruct>()) {}
 

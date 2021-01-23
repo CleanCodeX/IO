@@ -7,7 +7,7 @@ using SramCommons.Extensions;
 
 namespace SramCommons.Models
 {
-	/// <summary>Provides load and save functionality for a generic <see c="MultiSegmentFile{TStruct,TSegment}"/></summary>
+	/// <summary>Provides load and save functionality for a generic <see cref="MultiSegmentFile{TStruct,TSegment}"/></summary>
 	/// <typeparam name="TStruct">The file's structure type</typeparam>
 	/// <typeparam name="TSegment">The segment's structure type</typeparam> 
 	public class MultiSegmentFile<TStruct, TSegment> : StructFile<TStruct>, IMultiSegmentFile<TSegment>
@@ -22,7 +22,7 @@ namespace SramCommons.Models
 		public int MaxIndex { get; }
 
 		/// <summary>
-		/// Creates an instance of <see c="MultiSegmentFile{TStruct,TSegment}"/> and loads content from stream into buffer and S-RAM structure
+		/// Creates an instance of <see cref="MultiSegmentFile{TStruct,TSegment}"/> and loads content from stream into buffer and S-RAM structure
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied</param>
 		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
@@ -30,7 +30,7 @@ namespace SramCommons.Models
 		public MultiSegmentFile(byte[] buffer, int firstSegmentOffset, int maxIndex) : this(buffer.Length, firstSegmentOffset, maxIndex) => Load(buffer);
 
 		/// <summary>
-		/// Creates an instance of <see c="MultiSegmentFile{TStruct,TSegment}"/> and loads content from stream into buffer and S-RAM structure
+		/// Creates an instance of <see cref="MultiSegmentFile{TStruct,TSegment}"/> and loads content from stream into buffer and S-RAM structure
 		/// </summary>
 		/// <param name="stream">The stream the buffers will be loaded from</param>
 		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
@@ -39,7 +39,7 @@ namespace SramCommons.Models
 			firstSegmentOffset, maxIndex) => Load(stream);
 
 		/// <summary>
-		/// Creates an instance of <see c="MultiSegmentFile{TStruct,TSegment}"/> and creates a buffer of the specified size
+		/// Creates an instance of <see cref="MultiSegmentFile{TStruct,TSegment}"/> and creates a buffer of the specified size
 		/// </summary>
 		/// <param name="size">The size of the surrounding buffer</param>
 		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
@@ -108,7 +108,7 @@ namespace SramCommons.Models
 		public int MaxIndex { get; }
 
 		/// <summary>
-		/// Creates an instance of <see c="MultiSegmentFile"/> and loads content from stream into buffer and S-RAM structure
+		/// Creates an instance of <see cref="MultiSegmentFile"/> and loads content from stream into buffer and S-RAM structure
 		/// </summary>
 		/// <param name="stream">The stream the buffers will be loaded from</param>
 		/// <param name="segmentSize">The defined size of the segment</param>
@@ -118,7 +118,7 @@ namespace SramCommons.Models
 		public MultiSegmentFile(Stream stream, int size, int segmentSize, int firstSegmentOffset, int maxIndex) : this(size, segmentSize, firstSegmentOffset, maxIndex) => Load(stream);
 
 		/// <summary>
-		/// Creates an instance of <see c="MultiSegmentFile"/> and loads content from stream into buffer and S-RAM structure
+		/// Creates an instance of <see cref="MultiSegmentFile"/> and loads content from stream into buffer and S-RAM structure
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied</param>
 		/// <param name="segmentSize">The defined size of the segment</param>
@@ -128,7 +128,7 @@ namespace SramCommons.Models
 		public MultiSegmentFile(byte[] buffer, int size, int segmentSize, int firstSegmentOffset, int maxIndex) : this(size, segmentSize, firstSegmentOffset, maxIndex) => Load(buffer);
 
 		/// <summary>
-		/// Creates an instance of <see c="MultiSegmentFile"/> and creates a buffer of the specified size
+		/// Creates an instance of <see cref="MultiSegmentFile"/> and creates a buffer of the specified size
 		/// </summary>
 		/// <param name="size">The size of the surrounding buffer</param>
 		/// <param name="segmentSize">The defined size of the segment</param>

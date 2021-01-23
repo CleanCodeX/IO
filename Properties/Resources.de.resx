@@ -14,4 +14,7 @@
 	<data name="ErrorInvalidSize" xml:space="preserve">
 		<value>Größe ist falsch</value>
 	</data>
+	<data name="EnumNone" xml:space="preserve">
+		<value>Keine</value>
+	</data>
 </root>
