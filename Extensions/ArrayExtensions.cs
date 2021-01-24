@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using Common.Shared.Min.Extensions;
 
-namespace SramCommons.Extensions
+namespace IO.Extensions
 {
 	public static class ArrayExtensions
 	{

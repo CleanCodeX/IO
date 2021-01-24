@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace SramCommons.Models
+namespace IO.Models
 {
 	/// <summary>Provides access for raw save functionality</summary>
 	public interface IRawSave

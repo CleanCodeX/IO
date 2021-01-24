@@ -4,9 +4,9 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Common.Shared.Min.Extensions;
-using SramCommons.Helpers;
+using IO.Helpers;
 
-namespace SramCommons.Extensions
+namespace IO.Extensions
 {
 	public static class StructExtensions
 	{

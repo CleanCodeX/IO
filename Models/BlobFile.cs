@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using Common.Shared.Min.Helpers;
-using SramCommons.Exceptions;
+using IO.Exceptions;
 // ReSharper disable VirtualMemberCallInConstructor
 
-namespace SramCommons.Models
+namespace IO.Models
 {
 	/// <inheritdoc cref="IBlobFile"/>
 	public class BlobFile: IBlobFile, IRawSave
@@ -36,7 +36,7 @@ namespace SramCommons.Models
 		/// <param name="size">The size of the buffer to create</param>
 		public BlobFile(int size) => Size = size;
 
-		/// <summary>Overridable method to indicate that the SRAM file in valid state. Default is true.</summary>
+		/// <summary>Overridable method to indicate that the blob file is in valid state. Default is true.</summary>
 		/// <returns>base implementation returns always <langword>true</langword></returns>
 		public virtual bool IsValid() => Size > 0;
 
@@ -46,8 +46,13 @@ namespace SramCommons.Models
 		{
 			Requires.NotNull(buffer, nameof(buffer));
 
+			OnLoading();
+
 			Buffer = new byte[buffer.Length];
 			Array.Copy(buffer, Buffer, buffer.Length);
+			IsModified = false;
+
+			OnLoaded();
 		}
 
 		/// <summary>Loads whole buffer from stream</summary>

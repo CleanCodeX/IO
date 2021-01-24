@@ -1,9 +1,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
-using SramCommons.Helpers;
+using IO.Helpers;
 // ReSharper disable VirtualMemberCallInConstructor
 
-namespace SramCommons.Models
+namespace IO.Models
 {
 	/// <summary>Provides load and save functionality for a generic struct file</summary>
 	/// <typeparam name="TStruct">The file's structure type</typeparam>

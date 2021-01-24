@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace SramCommons.Extensions
+namespace IO.Extensions
 {
 	public static class NumberExtensions
 	{

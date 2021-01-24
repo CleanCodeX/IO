@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common.Shared.Min.Extensions;
-using SramCommons.Properties;
+using IO.Properties;
 
-namespace SramCommons.Extensions
+namespace IO.Extensions
 {
 	public static class EnumExtensions
 	{

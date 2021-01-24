@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace SramCommons.Models
+namespace IO.Models
 {
 	/// <summary>Non generic interface for blob file</summary>
 	public interface IBlobFile

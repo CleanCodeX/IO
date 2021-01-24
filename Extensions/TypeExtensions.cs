@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace SramCommons.Extensions
+namespace IO.Extensions
 {
 	public static class TypeExtensions
 	{

@@ -1,4 +1,4 @@
-namespace SramCommons.Models
+namespace IO.Models
 {
 	/// <summary>Generic interface for multi segment file</summary>
 	/// <typeparam name="TSegment">The segment's structure type</typeparam>

@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace SramCommons.Models.Structs
+namespace IO.Models.Structs
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 3)]
 	[DebuggerDisplay("{ToString(),nq}")]

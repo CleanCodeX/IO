@@ -1,11 +1,10 @@
 using System;
-using Res = SramCommons.Properties.Resources;
+using IO.Properties;
 
-namespace SramCommons.Exceptions
+namespace IO.Exceptions
 {
 	public class InvalidFileException : Exception
 	{
-		public InvalidFileException() : base(Res.ErrorInvalidSize) {}
+		public InvalidFileException() : base(Resources.ErrorInvalidSize) {}
 	}
 }
-

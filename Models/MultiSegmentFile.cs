@@ -2,10 +2,10 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using Common.Shared.Min.Helpers;
-using SramCommons.Extensions;
+using IO.Extensions;
 // ReSharper disable VirtualMemberCallInConstructor
 
-namespace SramCommons.Models
+namespace IO.Models
 {
 	/// <summary>Provides load and save functionality for a generic <see cref="MultiSegmentFile{TStruct,TSegment}"/></summary>
 	/// <typeparam name="TStruct">The file's structure type</typeparam>
@@ -25,16 +25,16 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="MultiSegmentFile{TStruct,TSegment}"/> and loads content from stream into buffer and S-RAM structure
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied</param>
-		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
-		/// <param name="maxIndex">The maximum (zero based) index of save slots the sram file can contain</param>
+		/// <param name="firstSegmentOffset">The offset of first segment in blob buffer</param>
+		/// <param name="maxIndex">The maximum (zero based) index of save slots the blob file can contain</param>
 		public MultiSegmentFile(byte[] buffer, int firstSegmentOffset, int maxIndex) : this(buffer.Length, firstSegmentOffset, maxIndex) => Load(buffer);
 
 		/// <summary>
 		/// Creates an instance of <see cref="MultiSegmentFile{TStruct,TSegment}"/> and loads content from stream into buffer and S-RAM structure
 		/// </summary>
 		/// <param name="stream">The stream the buffers will be loaded from</param>
-		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
-		/// <param name="maxIndex">The maximum (zero based) index of save slots the sram file can contain</param>
+		/// <param name="firstSegmentOffset">The offset of first segment in blob buffer</param>
+		/// <param name="maxIndex">The maximum (zero based) index of save slots the blob file can contain</param>
 		public MultiSegmentFile(Stream stream, int firstSegmentOffset, int maxIndex) : this((int)stream.Length,
 			firstSegmentOffset, maxIndex) => Load(stream);
 
@@ -42,23 +42,9 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="MultiSegmentFile{TStruct,TSegment}"/> and creates a buffer of the specified size
 		/// </summary>
 		/// <param name="size">The size of the surrounding buffer</param>
-		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
-		/// <param name="maxIndex">The maximum (zero based) index of save slots the sram file can contain</param>
+		/// <param name="firstSegmentOffset">The offset of first segment in blob buffer</param>
+		/// <param name="maxIndex">The maximum (zero based) index of save slots the blob file can contain</param>
 		public MultiSegmentFile(int size, int firstSegmentOffset, int maxIndex) : base(size) => (SegmentSize, FirstSegmentOffset, MaxIndex) = (Marshal.SizeOf<TSegment>(), firstSegmentOffset, maxIndex);
-
-		/// <inheritdoc cref="StructFile{TStruct}.Load(byte[])"/>
-		public override void Load(byte[] buffer)
-		{
-			base.Load(buffer);
-			GetStructFromBlob();
-		}
-
-		/// <inheritdoc cref="StructFile{TStruct}.Load(Stream)"/>
-		public override void Load(Stream stream)
-		{
-			base.Load(stream);
-			GetStructFromBlob();
-		}
 
 		private void GetStructFromBlob() => Struct = GetStructFromBlob<TStruct>(Buffer);
 
@@ -112,8 +98,8 @@ namespace SramCommons.Models
 		/// </summary>
 		/// <param name="stream">The stream the buffers will be loaded from</param>
 		/// <param name="segmentSize">The defined size of the segment</param>
-		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
-		/// <param name="maxIndex">The maximum (zero based) index of save slots the sram file can contain</param>
+		/// <param name="firstSegmentOffset">The offset of first segment in blob buffer</param>
+		/// <param name="maxIndex">The maximum (zero based) index of save slots the blob file can contain</param>
 		/// <param name="size">The defined size of the buffer</param>
 		public MultiSegmentFile(Stream stream, int size, int segmentSize, int firstSegmentOffset, int maxIndex) : this(size, segmentSize, firstSegmentOffset, maxIndex) => Load(stream);
 
@@ -122,8 +108,8 @@ namespace SramCommons.Models
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied</param>
 		/// <param name="segmentSize">The defined size of the segment</param>
-		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
-		/// <param name="maxIndex">The maximum (zero based) index of save slots the sram file can contain</param>
+		/// <param name="firstSegmentOffset">The offset of first segment in blob buffer</param>
+		/// <param name="maxIndex">The maximum (zero based) index of save slots the blob file can contain</param>
 		/// <param name="size">The defined size of the buffer</param>
 		public MultiSegmentFile(byte[] buffer, int size, int segmentSize, int firstSegmentOffset, int maxIndex) : this(size, segmentSize, firstSegmentOffset, maxIndex) => Load(buffer);
 
@@ -132,8 +118,8 @@ namespace SramCommons.Models
 		/// </summary>
 		/// <param name="size">The size of the surrounding buffer</param>
 		/// <param name="segmentSize">The defined size of the segment</param>
-		/// <param name="firstSegmentOffset">The offset of first segment in sram buffer</param>
-		/// <param name="maxIndex">The maximum (zero based) index of save slots the sram file can contain</param>
+		/// <param name="firstSegmentOffset">The offset of first segment in blob buffer</param>
+		/// <param name="maxIndex">The maximum (zero based) index of save slots the blob file can contain</param>
 		public MultiSegmentFile(int size, int segmentSize, int firstSegmentOffset, int maxIndex) : base(size) => (SegmentSize, FirstSegmentOffset, MaxIndex) = (segmentSize, firstSegmentOffset, maxIndex);
 
 		/// <summary>Checks whether a segment index itself is valid. Can be overwritten for further checks.</summary>

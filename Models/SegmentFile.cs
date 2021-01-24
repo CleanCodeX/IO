@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using SramCommons.Extensions;
-using SramCommons.Helpers;
+using IO.Extensions;
+using IO.Helpers;
 // ReSharper disable VirtualMemberCallInConstructor
 
-namespace SramCommons.Models
+namespace IO.Models
 {
 	/// <summary>Provides load and save functionality for a generic <see cref="StructFile{TStruct,TSegment}"/></summary>
 	/// <typeparam name="TStruct">The file's structure type</typeparam>
@@ -27,21 +27,21 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="SegmentFile{TStruct,TSegment}"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="stream">The stream the buffers will be loaded from</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		public SegmentFile(Stream stream, int segmentOffset) : this(Marshal.SizeOf<TStruct>(), segmentOffset) => Load(stream);
 
 		/// <summary>
 		/// Creates an instance of <see cref="SegmentFile{TStruct,TSegment}"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		public SegmentFile(byte[] buffer, int segmentOffset) : this(Marshal.SizeOf<TStruct>(), segmentOffset) => Load(buffer);
 
 		/// <summary>
 		/// Creates an instance of <see cref="SegmentFile{TStruct,TSegment}"/> and creates a buffer of the specified size
 		/// </summary>
 		/// <param name="size">The size of the buffer to create</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		public SegmentFile(int size, int segmentOffset) : base(size) => (SegmentOffset, SegmentSize) = (segmentOffset, Marshal.SizeOf<TSegment>());
 
 		/// <inheritdoc cref="IBlobFile.Load"/>
@@ -87,7 +87,7 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="SegmentFile{TSegment}"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="stream">The stream the buffers will be loaded from</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		/// /// <param name="segmentSize">The size of the segment</param>
 		public SegmentFile(Stream stream, int segmentOffset, int segmentSize) : this((int) stream.Length, segmentOffset,
 			segmentSize) => Load(stream);
@@ -96,7 +96,7 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="SegmentFile{TSegment}"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		/// /// <param name="segmentSize">The size of the segment</param>
 		public SegmentFile(byte[] buffer, int segmentOffset, int segmentSize) : this(buffer.Length, segmentOffset, segmentSize) => Load(buffer);
 
@@ -104,7 +104,7 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="SegmentFile{TSegment}"/> and creates a buffer of the specified size
 		/// </summary>
 		/// <param name="size">The size of the buffer to create</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		/// <param name="segmentSize">The size of the segment</param>
 		public SegmentFile(int size, int segmentOffset, int segmentSize) : base(size) => (SegmentOffset, SegmentSize) = (segmentOffset, segmentSize);
 
@@ -133,7 +133,7 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="SegmentFile"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="stream">The stream the buffers will be loaded from</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		/// /// <param name="segmentSize">The size of the segment</param>
 		public SegmentFile(Stream stream, int segmentOffset, int segmentSize) : this((int)stream.Length, segmentOffset,
 			segmentSize) => Load(stream);
@@ -142,7 +142,7 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="SegmentFile"/> and loads content from stream into buffer and struct
 		/// </summary>
 		/// <param name="buffer">The buffer which will be copied</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		/// /// <param name="segmentSize">The size of the segment</param>
 		public SegmentFile(byte[] buffer, int segmentOffset, int segmentSize) : this(buffer.Length, segmentOffset, segmentSize) => Load(buffer);
 
@@ -150,7 +150,7 @@ namespace SramCommons.Models
 		/// Creates an instance of <see cref="SegmentFile"/> and creates a buffer of the specified size
 		/// </summary>
 		/// <param name="size">The size of the buffer to create</param>
-		/// <param name="segmentOffset">The offset of first segment in sram buffer</param>
+		/// <param name="segmentOffset">The offset of first segment in blob buffer</param>
 		/// <param name="segmentSize">The size of the segment</param>
 		public SegmentFile(int size, int segmentOffset, int segmentSize) : base(size) => (SegmentOffset, SegmentSize) = (segmentOffset, segmentSize);
 
