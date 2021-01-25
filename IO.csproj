@@ -4,8 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>1.0.0-a1</Version>
-    <Authors>XETH (Sven Krauter)</Authors>
+    <Version>1.0.0-a2</Version>
+    <Authors>S. Krauter { CleanCoderX, XETH }</Authors>
     <Company>KST</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Common IO functionality to load and save (segmented) blob files.</Description>
@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/CleanCodeX/IO</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
     <Product>IO Common</Product>
-    <PackageTags>Blob, IO</PackageTags>
+    <PackageTags>Blob, IO, Extensions</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

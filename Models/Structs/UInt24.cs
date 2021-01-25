@@ -6,7 +6,7 @@ namespace IO.Models.Structs
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 3)]
 	[DebuggerDisplay("{ToString(),nq}")]
-	public struct ThreeByteUInt
+	public struct UInt24
 	{
 		/// <summary>
 		/// Gets or set 3 bytes values as uint
