@@ -5,18 +5,18 @@ using System.Runtime.InteropServices;
 namespace IO.Models.Structs
 {
 	/// <summary>
-	/// 24 bit (3 byte) structure
+	/// 56 bit (7 byte) structure
 	/// </summary>
-	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 3)]
+	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 7)]
 	[DebuggerDisplay("{ToString(),nq}")]
-	public struct UInt24
+	public struct UInt56
 	{
-		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)]
 		public byte[] Data;
 
-		public uint Value
+		public ulong Value
 		{
-			get => BitConverter.ToUInt32(Data.AsSpan()[1..]);
+			get => BitConverter.ToUInt64(Data.AsSpan()[1..]);
 			set => Data = BitConverter.GetBytes(value)[1..];
 		}
 
