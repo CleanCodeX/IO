@@ -12,7 +12,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <OutputType>Library</OutputType>
-    <PackageId>KST.IO</PackageId>
+    <PackageId>CCX.IO</PackageId>
     <RepositoryUrl>https://github.com/CleanCodeX/IO</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
     <Product>IO Commons</Product>
