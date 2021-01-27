@@ -46,8 +46,6 @@ namespace IO.Models
 		/// <param name="maxIndex">The maximum (zero based) index of save slots the blob file can contain</param>
 		public MultiSegmentFile(int size, int firstSegmentOffset, int maxIndex) : base(size) => (SegmentSize, FirstSegmentOffset, MaxIndex) = (Marshal.SizeOf<TSegment>(), firstSegmentOffset, maxIndex);
 
-		private void GetStructFromBlob() => Struct = GetStructFromBlob<TStruct>(Buffer);
-
 		/// <inheritdoc cref="IMultiSegmentFile{TSegment}.GetSegment"/>
 		public virtual TSegment GetSegment(int index) => GetStructFromBlob<TSegment>(GetSegmentBytes(index));
 

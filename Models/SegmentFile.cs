@@ -7,7 +7,7 @@ using IO.Helpers;
 
 namespace IO.Models
 {
-	/// <summary>Provides load and save functionality for a generic <see cref="StructFile{TStruct,TSegment}"/></summary>
+	/// <summary>Provides load and save functionality for a generic <see cref="SegmentFile{TStruct,TSegment}"/></summary>
 	/// <typeparam name="TStruct">The file's structure type</typeparam>
 	/// <typeparam name="TSegment">The file's segment structure type</typeparam>
 	public class SegmentFile<TStruct, TSegment> : StructFile<TStruct>, ISegmentFile<TSegment>

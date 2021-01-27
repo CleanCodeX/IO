@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using Common.Shared.Min.Extensions;
+using IO.Helpers;
 
 namespace IO.Extensions
 {
@@ -62,6 +63,37 @@ namespace IO.Extensions
 			source.Read(data, offset, size);
 
 			return data.ToStruct<T>();
+		}
+
+		/// <summary>
+		/// Appends the contents of the stream to file
+		/// </summary>
+		public static void AppendTo([NotNull] this Stream source, [NotNull] string filePath)
+		{
+			DirectoryHelper.EnsureFileDirectoryExists(filePath);
+
+			using var fileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read);
+			source.CopyAllTo(fileStream);
+		}
+
+		/// <summary>
+		/// Appends the whole contents of the stream to a file
+		/// </summary>
+		public static void SaveTo([NotNull] this Stream source, [NotNull] string filePath)
+		{
+			DirectoryHelper.EnsureFileDirectoryExists(filePath);
+
+			using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+			source.CopyAllTo(source);
+		}
+
+		/// <summary>
+		/// Saves the whole content of the stream to a target stream
+		/// </summary>
+		public static void CopyAllTo([NotNull] this Stream source, [NotNull] Stream target)
+		{
+			source.Position = 0;
+			source.CopyTo(target);
 		}
 	}
 }

@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
-    <Version>1.0.0-a4</Version>
+    <Version>1.0.0-a5</Version>
     <Authors>S. Krauter { CleanCoderX, XETH }</Authors>
     <Company>KST</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -12,15 +12,18 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <OutputType>Library</OutputType>
-    <PackageId>CCX.IO</PackageId>
+    <PackageId>KST.IO</PackageId>
     <RepositoryUrl>https://github.com/CleanCodeX/IO</RepositoryUrl>
     <Platforms>AnyCPU</Platforms>
-    <Product>IO Common</Product>
+    <Product>IO Commons</Product>
     <PackageTags>Blob, IO, Extensions</PackageTags>
+    <PackageProjectUrl>http://libs.softwaretechnik.IT</PackageProjectUrl>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CCX.Common.Shared.Min" Version="1.1.3-a2" />
+    <PackageReference Include="ObjectExtensions.Copy" Version="1.0.1" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
