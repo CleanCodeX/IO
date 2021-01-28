@@ -56,7 +56,7 @@ namespace IO.Extensions
 		private static string InternalFormatAsString(this object source, string? delimiter = null)
 		{
 			var type = source.GetType();
-			var isParentStruct = type.IsDefined<ContainsComplexStructures>();
+			var isParentStruct = type.IsDefined<HasComplexMembersAttribute>();
 			var fieldInfos = source.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
 			var newLine = Environment.NewLine;
 			const int maxArrayStringSize = 100;
