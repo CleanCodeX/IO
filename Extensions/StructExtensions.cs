@@ -55,30 +55,51 @@ namespace IO.Extensions
 
 		private static string InternalFormatAsString(this object source, string? delimiter = null)
 		{
+			var type = source.GetType();
+			var isParentStruct = type.IsDefined<ContainsComplexStructures>();
 			var fieldInfos = source.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+			var newLine = Environment.NewLine;
+			const int maxArrayStringSize = 100;
 
 			StringBuilder sb = new(fieldInfos.Length);
 			foreach (var fieldInfo in fieldInfos)
 			{
-				var value = fieldInfo.GetValue(null)!;
+				var fieldType = fieldInfo.FieldType;
+				var value = fieldInfo.GetValue(source)!;
+				var fieldName = fieldInfo.Name;
+				//Debug.Assert(fieldName != "BoyExperience");
 
-				if (fieldInfo.FieldType.IsArray)
+				if (fieldType.IsArray)
 				{
+					var elementType = fieldType.GetElementType()!;
+					if (elementType.IsPrimitive)
+						return elementType == typeof(byte)
+							? newLine + $"    | {fieldName}: {((byte[])value).GetStringAscii().TruncateAt(maxArrayStringSize)!}"
+							: newLine + $"    | {fieldName}: {elementType}[]";
+
 					var i = 0;
 					foreach (var element in (Array)value)
 					{
-						sb.AppendLine($"{fieldInfo.Name}[{i}]: {InternalFormatAsString(element, delimiter)}");
-
+						sb.Append(newLine + $"    ¬ {fieldName}[{i}]:{element}");
 						++i;
 					}
 				}
-				else if (Type.GetTypeCode(fieldInfo.FieldType) == TypeCode.Object)
-					sb.AppendLine($"{fieldInfo.Name}: {InternalFormatAsString(value, delimiter)}");
+				else if (isParentStruct && Type.GetTypeCode(fieldType) == TypeCode.Object)
+				{
+					sb.Append(newLine);
+
+					if (!isParentStruct)
+						sb.Append("  ");
+
+					sb.Append($"  ¤ {fieldName}¬ {value}");
+				}
 				else
-					sb.AppendLine($"{fieldInfo.Name}: {value}");
+				{
+					sb.Append(newLine + $"    | {fieldName} => {value}");
+				}
 			}
 
-			return delimiter is null ? sb.ToString() : sb.ToString().Replace(Environment.NewLine, delimiter);
+			return delimiter is null ? sb.ToString() : sb.ToString().Replace(newLine, delimiter);
 		}
 	}
 }

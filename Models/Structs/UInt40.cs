@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using IO.Extensions;
 
 namespace IO.Models.Structs
 {
@@ -17,7 +18,7 @@ namespace IO.Models.Structs
 
 		public TEnum Value
 		{
-			get => (TEnum)(object)BitConverter.ToUInt64(Data.AsSpan()[3..]);
+			get => (TEnum)(object)BitConverter.ToUInt64(Data.Resize(8));
 			set => Data = BitConverter.GetBytes((ulong)(object)value)[3..];
 		}
 
@@ -41,7 +42,7 @@ namespace IO.Models.Structs
 
 		public ulong Value
 		{
-			get => BitConverter.ToUInt64(Data.AsSpan()[3..]);
+			get => BitConverter.ToUInt64(Data.Resize(8));
 			set => Data = BitConverter.GetBytes(value)[3..];
 		}
 

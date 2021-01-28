@@ -8,6 +8,13 @@ namespace IO.Extensions
 {
 	public static class ArrayExtensions
 	{
+		public static byte[] Resize([NotNull] this byte[] source, int newSize)
+		{
+			Array.Resize(ref source, newSize);
+
+			return source;
+		}
+
 		public static MemoryStream? ToStreamIfNotNull(this byte[]? source)
 		{
 			if (source is null) return null;

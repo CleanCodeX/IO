@@ -1,6 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
+using Common.Shared.Min.Extensions;
+using IO.Extensions;
 
 namespace IO.Models.Structs
 {
@@ -17,7 +20,7 @@ namespace IO.Models.Structs
 
 		public TEnum Value
 		{
-			get => (TEnum)(object)BitConverter.ToUInt32(Data.AsSpan()[1..]);
+			get => (TEnum)(object)BitConverter.ToUInt32(Data.Resize(4));
 			set => Data = BitConverter.GetBytes((uint)(object)value)[1..];
 		}
 
@@ -41,7 +44,7 @@ namespace IO.Models.Structs
 
 		public uint Value
 		{
-			get => BitConverter.ToUInt32(Data.AsSpan()[1..]);
+			get => BitConverter.ToUInt32(Data.Resize(4));
 			set => Data = BitConverter.GetBytes(value)[1..];
 		}
 
