@@ -99,8 +99,6 @@ namespace IO.Extensions
 
 		#region UInt64
 
-		public static ulong ToUInt64([NotNull] this Enum source) => (ulong)(object)source;
-
 		public static Enum InvertUInt64Flags([NotNull] this Enum source, Enum flags)
 		{
 			var intFlag = (UInt64)(object)flags;
