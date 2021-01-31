@@ -33,7 +33,7 @@ namespace IO.Extensions
 		/// <param name="source"></param>
 		/// <param name="delimiter">The delimiter for sepa</param>
 		/// <returns></returns>
-		public static string FormatAsString([NotNull] this byte[] source, string? delimiter = null)
+		public static string FormatAsString([NotNull] this Array source, string? delimiter = null)
 		{
 			source.ThrowIfNull(nameof(source));
 			StringBuilder sb = new(source.Length);
@@ -43,10 +43,10 @@ namespace IO.Extensions
 				if (i > 0)
 					sb.Append(delimiter ?? ", ");
 
-				sb = sb.Append(source[i]);
+				sb = sb.Append(source.GetValue(i)?.ToString() ?? "null");
 			}
 
-			return sb.ToString();
+			return $"{{{sb}}}";
 		}
 
 		/// <returns>Non 0-char trimmed string</returns>

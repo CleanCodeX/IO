@@ -1,8 +1,5 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Reflection;
-using System.Text;
 using Common.Shared.Min.Extensions;
 using IO.Helpers;
 
@@ -51,55 +48,6 @@ namespace IO.Extensions
 		/// <param name="delimiter">The delimiter for separation</param>
 		/// <returns></returns>
 		public static string FormatAsString<T>(this T source, string? delimiter = null)
-			where T : struct => InternalFormatAsString(source, delimiter);
-
-		private static string InternalFormatAsString(this object source, string? delimiter = null)
-		{
-			var type = source.GetType();
-			var isParentStruct = type.IsDefined<HasComplexMembersAttribute>();
-			var fieldInfos = source.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-			var newLine = Environment.NewLine;
-			const int maxArrayStringSize = 100;
-
-			StringBuilder sb = new(fieldInfos.Length);
-			foreach (var fieldInfo in fieldInfos)
-			{
-				var fieldType = fieldInfo.FieldType;
-				var value = fieldInfo.GetValue(source)!;
-				var fieldName = fieldInfo.Name;
-				//Debug.Assert(fieldName != "BoyExperience");
-
-				if (fieldType.IsArray)
-				{
-					var elementType = fieldType.GetElementType()!;
-					if (elementType.IsPrimitive)
-						return elementType == typeof(byte)
-							? newLine + $"    | {fieldName}: {((byte[])value).GetStringAscii().TruncateAt(maxArrayStringSize)!}"
-							: newLine + $"    | {fieldName}: {elementType}[]";
-
-					var i = 0;
-					foreach (var element in (Array)value)
-					{
-						sb.Append(newLine + $"    ¬ {fieldName}[{i}]:{element}");
-						++i;
-					}
-				}
-				else if (isParentStruct && Type.GetTypeCode(fieldType) == TypeCode.Object)
-				{
-					sb.Append(newLine);
-
-					if (!isParentStruct)
-						sb.Append("  ");
-
-					sb.Append($"  ¤ {fieldName}¬ {value}");
-				}
-				else
-				{
-					sb.Append(newLine + $"    | {fieldName} => {value}");
-				}
-			}
-
-			return delimiter is null ? sb.ToString() : sb.ToString().Replace(newLine, delimiter);
-		}
+			where T : struct => StructFormatter.FormatAsString(source, 1, delimiter);
 	}
 }
