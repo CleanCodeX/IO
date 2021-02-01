@@ -53,8 +53,12 @@ namespace IO.Extensions
 		public static string GetString([NotNull] this byte[] source)
 		{
 			source.ThrowIfNull(nameof(source));
-			var chars = new char[source.Length / sizeof(char)];
-			Buffer.BlockCopy(source, 0, chars, 0, source.Length);
+
+			var count = Array.IndexOf(source, (char)0, 0);
+			if (count < 0) count = source.Length;
+
+			var chars = new char[count / sizeof(char)];
+			Buffer.BlockCopy(source, 0, chars, 0, count);
 			return new string(chars);
 		}
 
@@ -62,8 +66,13 @@ namespace IO.Extensions
 		public static string GetString([NotNull] this char[] source)
 		{
 			source.ThrowIfNull(nameof(source));
-			var chars = new char[source.Length];
-			Buffer.BlockCopy(source, 0, chars, 0, source.Length);
+
+			var count = Array.IndexOf(source, (char)0, 0);
+			if (count < 0) count = source.Length;
+
+			var chars = new char[count];
+			Buffer.BlockCopy(source, 0, chars, 0, count * sizeof(char));
+
 			return new string(chars);
 		}
 

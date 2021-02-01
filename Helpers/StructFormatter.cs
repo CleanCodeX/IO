@@ -13,6 +13,7 @@ namespace IO.Helpers
 		/// Formates the structure recursively by an optionally specified delimiter.
 		/// </summary>
 		/// <param name="source"></param>
+		/// <param name="initialIdentSize">The initial identation</param>
 		/// <param name="delimiter">The delimiter for separation</param>
 		/// <returns></returns>
 		public static string FormatAsString<T>(T source, int initialIdentSize = 1, string? delimiter = null)
