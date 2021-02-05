@@ -2,11 +2,21 @@
 using System.IO;
 using Common.Shared.Min.Extensions;
 using IO.Helpers;
+using IO.Services;
 
 namespace IO.Extensions
 {
 	public static class StructExtensions
 	{
+		/// <summary>
+		/// Formates the structure.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="options">The options to be used.</param>
+		/// <returns>A formatted string</returns>
+		public static string Format<T>(this T source, StructFormattingOptions? options = default)
+			where T : struct => IOServices.StructFormatter.Format(source, options);
+
 		/// <summary>
 		/// Convert the bytes to a structure in host-endian format (little-endian on PCs).
 		/// To use with big-endian data, reverse all of the data bytes and create a struct that is in the reverse order of the data.
@@ -22,7 +32,7 @@ namespace IO.Extensions
 		/// <typeparam name="T"></typeparam>
 		/// <param name="source">The structure.</param>
 		/// <returns></returns>
-		public static byte[] ToBytes<T>([NotNull] this T source) 
+		public static byte[] ToBytes<T>([NotNull] this T source)
 			where T : struct => StructSerializer.Serialize(source);
 
 		/// <summary>
@@ -40,14 +50,5 @@ namespace IO.Extensions
 			StructSerializer.Serialize(ms, source);
 			return ms;
 		}
-
-		/// <summary>
-		/// Formates the structure recursively by an optionally specified delimiter.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="delimiter">The delimiter for separation</param>
-		/// <returns></returns>
-		public static string FormatAsString<T>(this T source, string? delimiter = null)
-			where T : struct => StructFormatter.FormatAsString(source, 1, delimiter);
 	}
 }

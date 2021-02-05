@@ -3,11 +3,20 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using Common.Shared.Min.Extensions;
+using IO.Services;
 
 namespace IO.Extensions
 {
 	public static class ArrayExtensions
 	{
+		/// <summary>
+		/// Formates the array.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="options">The options to be used.</param>
+		/// <returns>A formatted string</returns>
+		public static string Format([NotNull] this Array source, ArrayFormattingOptions? options = default) => IOServices.ArrayFormatter.Format(source, options);
+
 		public static byte[] Resize([NotNull] this byte[] source, int newSize)
 		{
 			Array.Resize(ref source, newSize);
@@ -26,28 +35,6 @@ namespace IO.Extensions
 		/// <param name="source"></param>
 		/// <returns>New memory stream</returns>
 		public static MemoryStream ToStream([NotNull] this byte[] source) => new(source);
-
-		/// <summary>
-		/// Formates bytes with a delimiter.
-		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="delimiter">The delimiter for sepa</param>
-		/// <returns></returns>
-		public static string FormatAsString([NotNull] this Array source, string? delimiter = null)
-		{
-			source.ThrowIfNull(nameof(source));
-			StringBuilder sb = new(source.Length);
-
-			for (var i = 0; i < source.Length; i++)
-			{
-				if (i > 0)
-					sb.Append(delimiter ?? ", ");
-
-				sb = sb.Append(source.GetValue(i)?.ToString() ?? "null");
-			}
-
-			return $"{{{sb}}}";
-		}
 
 		/// <returns>Non 0-char trimmed string</returns>
 		public static string GetString([NotNull] this byte[] source)
