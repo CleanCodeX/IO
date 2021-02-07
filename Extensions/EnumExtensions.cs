@@ -13,6 +13,23 @@ namespace IO.Extensions
 
 		public static IDictionary<string, Enum> ToDictionary<TEnum>(this TEnum source) where TEnum: struct, Enum => Enum.GetNames<TEnum>().ToDictionary(k => k, v => (Enum)v.ParseEnum<TEnum>());
 
+		/// <summary>
+		/// Returns a byte array of the underlying type data.
+		/// </summary>
+		public static byte[] ToByteArray([NotNull] this Enum source) =>
+			BitConverter.GetBytes(Type.GetTypeCode(Enum.GetUnderlyingType(source.GetType())) switch
+			{
+				TypeCode.SByte => source.ToSbyte(),
+				TypeCode.Byte => source.ToByte(),
+				TypeCode.Int16 => source.ToShort(),
+				TypeCode.UInt16 => source.ToUShort(),
+				TypeCode.Int32 => source.ToInt(),
+				TypeCode.UInt32 => source.ToUInt(),
+				TypeCode.Int64 => source.ToLong(),
+				TypeCode.UInt64 => source.ToULong(),
+				_ => throw new ArgumentOutOfRangeException()
+			});
+
 		#region UInt16
 
 		public static Enum InvertUInt16Flags([NotNull] this Enum source, Enum flags)

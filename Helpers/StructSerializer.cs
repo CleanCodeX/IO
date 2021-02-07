@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace IO.Helpers
@@ -22,7 +23,12 @@ namespace IO.Helpers
 		public static byte[] Serialize<T>(T data)
 			where T : struct
 		{
-			var size = Marshal.SizeOf(data.GetType());
+			var type = typeof(T);
+			if (type.IsEnum)
+				throw EnumNotSupportedException(type);
+			//type = Enum.GetUnderlyingType(type);
+
+			var size = Marshal.SizeOf(type);
 			var array = new byte[size];
 			var ptr = Marshal.AllocHGlobal(size);
 			Marshal.StructureToPtr(data!, ptr, true);
@@ -54,12 +60,20 @@ namespace IO.Helpers
 		/// <summary>Deserializes from a byte array</summary>
 		public static T Deserialize<T>(byte[] array)
 		{
-			var size = Marshal.SizeOf<T>();
+			var type = typeof(T);
+			if (type.IsEnum)
+				throw EnumNotSupportedException(type);
+			//type = Enum.GetUnderlyingType(type);
+
+			var size = Marshal.SizeOf(type);
 			var ptr = Marshal.AllocHGlobal(size);
 			Marshal.Copy(array, 0, ptr, size);
 			var s = Marshal.PtrToStructure<T>(ptr)!;
 			Marshal.FreeHGlobal(ptr);
 			return s!;
 		}
+
+		private static Exception EnumNotSupportedException(MemberInfo type) =>
+			new ArgumentException($"Type {type.Name} is an enum type which is currently not supported for serialization.");
 	}
 }

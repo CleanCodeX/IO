@@ -14,8 +14,8 @@ namespace IO.Extensions
 		/// <param name="source"></param>
 		/// <param name="options">The options to be used.</param>
 		/// <returns>A formatted string</returns>
-		public static string Format<T>(this T source, StructFormattingOptions? options = default)
-			where T : struct => IOServices.StructFormatter.Format(source, options);
+		public static string Format<T>([NotNull, DisallowNull] this T source, StructFormattingOptions? options = default)
+			where T : struct => IOServices.StructFormatter?.Format(source, options) ?? source.ToString()!;
 
 		/// <summary>
 		/// Convert the bytes to a structure in host-endian format (little-endian on PCs).

@@ -15,7 +15,7 @@ namespace IO.Extensions
 		/// <param name="source"></param>
 		/// <param name="options">The options to be used.</param>
 		/// <returns>A formatted string</returns>
-		public static string Format([NotNull] this Array source, ArrayFormattingOptions? options = default) => IOServices.ArrayFormatter.Format(source, options);
+		public static string Format([NotNull, DisallowNull] this Array source, ArrayFormattingOptions? options = default) => IOServices.ArrayFormatter?.Format(source, options) ?? source.ToString()!;
 
 		public static byte[] Resize([NotNull] this byte[] source, int newSize)
 		{
