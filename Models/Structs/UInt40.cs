@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using IO.Extensions;
+using Common.Shared.Min.Extensions;
 
 namespace IO.Models.Structs
 {

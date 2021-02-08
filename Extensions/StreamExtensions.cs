@@ -86,14 +86,5 @@ namespace IO.Extensions
 			using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
 			source.CopyAllTo(source);
 		}
-
-		/// <summary>
-		/// Saves the whole content of the stream to a target stream
-		/// </summary>
-		public static void CopyAllTo([NotNull] this Stream source, [NotNull] Stream target)
-		{
-			source.Position = 0;
-			source.CopyTo(target);
-		}
 	}
 }

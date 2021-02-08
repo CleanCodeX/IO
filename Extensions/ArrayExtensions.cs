@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Text;
 using Common.Shared.Min.Extensions;
 using IO.Services;
@@ -16,25 +15,6 @@ namespace IO.Extensions
 		/// <param name="options">The options to be used.</param>
 		/// <returns>A formatted string</returns>
 		public static string Format([NotNull, DisallowNull] this Array source, ArrayFormattingOptions? options = default) => IOServices.ArrayFormatter?.Format(source, options) ?? source.ToString()!;
-
-		public static byte[] Resize([NotNull] this byte[] source, int newSize)
-		{
-			Array.Resize(ref source, newSize);
-
-			return source;
-		}
-
-		public static MemoryStream? ToStreamIfNotNull(this byte[]? source)
-		{
-			if (source is null) return null;
-
-			return new(source);
-		}
-
-		/// <summary>Creates a memory stream</summary>
-		/// <param name="source"></param>
-		/// <returns>New memory stream</returns>
-		public static MemoryStream ToStream([NotNull] this byte[] source) => new(source);
 
 		/// <returns>Non 0-char trimmed string</returns>
 		public static string GetString([NotNull] this byte[] source)
@@ -64,7 +44,7 @@ namespace IO.Extensions
 		}
 
 		/// <returns>0-char trimmed ASCII string</returns>
-		public static string GetStringAscii([NotNull] this byte[] source)
+		public static string GetAsciiString([NotNull] this byte[] source)
 		{
 			source.ThrowIfNull(nameof(source));
 			var count = Array.IndexOf<byte>(source, 0, 0);
@@ -73,6 +53,6 @@ namespace IO.Extensions
 		}
 
 		/// <returns>Array of chars</returns>
-		public static char[] GetChars([NotNull] this byte[] source) => Encoding.ASCII.GetChars(source);
+		public static char[] GetAsciiChars([NotNull] this byte[] source) => Encoding.ASCII.GetChars(source);
 	}
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Common.Shared.Min.Extensions;
 using IO.Properties;
 
@@ -10,8 +8,6 @@ namespace IO.Extensions
 	public static class EnumExtensions
 	{
 		public static string ToFlagsString([NotNull] this Enum source) => source.ToString() == "0" ? Resources.EnumNone : source.ToString();
-
-		public static IDictionary<string, Enum> ToDictionary<TEnum>(this TEnum source) where TEnum: struct, Enum => Enum.GetNames<TEnum>().ToDictionary(k => k, v => (Enum)v.ParseEnum<TEnum>());
 
 		/// <summary>
 		/// Returns a byte array of the underlying type data.
