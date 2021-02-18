@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -17,20 +18,25 @@ namespace IO.Extensions
 		public static string PadLeft(this uint source) => source.ToString().PadLeft(10);
 		public static string PadLeft(this int source) => source.ToString().PadLeft(11);
 
-		public static string FormatBinary(this byte value, int minimumDigits) => InternalFormatBinary(value, minimumDigits);
-		public static string FormatBinary(this int value, int minimumDigits) => InternalFormatBinary(value, minimumDigits);
-		public static string FormatBinary(this short value, int minimumDigits) => InternalFormatBinary(value, minimumDigits);
-		public static string FormatBinary(this ushort value, int minimumDigits) => InternalFormatBinary(value, minimumDigits);
-		public static string FormatBinary(this uint value, int minimumDigits) => InternalFormatBinary(value, minimumDigits);
+		public static string FormatBinary(this byte value, int bitLength = 8) => InternalFormatBinary(value, bitLength);
+		public static string FormatBinary(this short value, int bitLength = 16) => InternalFormatBinary(value, bitLength);
+		public static string FormatBinary(this ushort value, int bitLength = 16) => InternalFormatBinary(value, bitLength);
+		public static string FormatBinary(this int value, int bitLength = 32) => InternalFormatBinary(value, bitLength);
+		public static string FormatBinary(this uint value, int bitLength = 32) => InternalFormatBinary(value, bitLength);
+		public static string FormatBinary(this long value, int bitLength = 64) => InternalFormatBinary(value, bitLength);
+		public static string FormatBinary(this ulong value, int bitLength = 64) => InternalFormatBinary((long)value, bitLength);
 
-		private static string InternalFormatBinary(long value, int minimumDigits)
+		private static string InternalFormatBinary(long value, int minBitLength)
 		{
-			var result = Convert.ToString(value, 2).PadLeft(minimumDigits, '0');
+			if (minBitLength < 8)
+				minBitLength = 8;
 
-			if (minimumDigits <= 8 || minimumDigits % 8 > 0)
-				return SplitResult(0);
+			if (minBitLength % 8 > 0)
+				minBitLength = minBitLength / 8 * 9;
 
-			var sb = new StringBuilder();
+			var result = Convert.ToString(value, 2).PadLeft(minBitLength, '0');
+
+			StringBuilder sb = new();
 			for (var i = 0; i < result.Length; i += 8)
 			{
 				var byteBitString = SplitResult(i);

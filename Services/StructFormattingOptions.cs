@@ -7,19 +7,25 @@ namespace IO.Services
 	{
 		None = 0,
 		GroupingMembers = 0x1,
-		NonGroupingMembers = 0x2,
-		All = GroupingMembers | NonGroupingMembers,
+		AllMembers = 0x2 | GroupingMembers,
 	}
 
 	public class StructFormattingOptions
 	{
-		public int IdentSize { get; set; } = 2;
-		public string MemberDelimiter { get; set; } = Environment.NewLine;
-		public string SimpleMemberPrefix { get; set; } = "|";
-		public string ComplexMemberPrefix { get; set; } = "¤";
-		public string Ellipsis { get; set; } = "...";
-		public int ArrayStringMaxLength { get; set; } = 100;
-		public ShowTypeNamesOption ShowTypeNames { get; set; } = ShowTypeNamesOption.GroupingMembers;
-		public string? TypeNameTemplate { get; set; } = "[{0}] {1}";
+		public int IdentSize = 2;
+		public string MemberDelimiter = Environment.NewLine;
+		public string SimpleMemberPrefix = "|";
+		public string ComplexMemberPrefix = "¤";
+		public string ArrayElementPrefix = "¬";
+
+		/// <summary>
+		/// The enum's typename will be inserted to a param {0} marker.
+		/// </summary>
+		public string EnumTypeSuffix = " (Enum)";
+		public string GroupingMemberTemplate = "»{0}«";
+		public string Ellipsis = "...";
+		public int ArrayStringMaxLength = 100;
+		public ShowTypeNamesOption ShowTypeNames = ShowTypeNamesOption.GroupingMembers;
+		public string? TypeNameTemplate = "[{0}] {1}";
 	}
 }
