@@ -21,8 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CCX.Common.Shared.Min" Version="1.1.4-a1" />
-    <PackageReference Include="ObjectExtensions.Copy" Version="1.0.1" />
+    <PackageReference Include="CCX.Common.Shared.Min" Version="1.1.4-a2" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
