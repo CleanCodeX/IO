@@ -10,8 +10,20 @@ namespace IO.Models
 	public class StructFile<TStruct> : BlobFile
 		where TStruct : struct
 	{
+		private bool SaveStruct { get; set; }
+
+		private TStruct _struct;
+
 		/// <summary>The typed struct</summary>
-		public virtual TStruct Struct { get; protected set; }
+		public virtual TStruct Struct
+		{
+			get => _struct;
+			protected set
+			{
+				_struct = value;
+				SaveStruct = true;
+			}
+		}
 
 		/// <summary>
 		/// Creates an instance of <see cref="StructFile{TStruct}"/> and loads content from buffer into buffer and struct
@@ -40,6 +52,7 @@ namespace IO.Models
 		{
 			base.Load(buffer);
 			GetStructFromBlob();
+			SaveStruct = false;
 		}
 
 		/// <inheritdoc cref="IBlobFile.Load"/>
@@ -47,12 +60,14 @@ namespace IO.Models
 		{
 			base.Load(stream);
 			GetStructFromBlob();
+			SaveStruct = false;
 		}
 
 		/// <inheritdoc cref="IBlobFile.Save"/>
 		public override void Save(Stream stream)
 		{
-			SaveStructToBlob();
+			if(SaveStruct)
+				SaveStructToBlob();
 			base.Save(stream);
 		}
 
