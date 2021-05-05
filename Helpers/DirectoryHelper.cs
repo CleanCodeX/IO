@@ -25,7 +25,7 @@ namespace IO.Helpers
 		}
 
 		/// <summary>
-		/// Emties the directory if necessary, otherwise creates it
+		/// Empties the directory if not empty, otherwise creates it
 		/// </summary>
 		/// <param name="directoryPath">The directory to check</param>
 		public static void EnsureEmptyDirectoryExists(in string directoryPath)
