@@ -12,8 +12,8 @@ namespace IO.Extensions
 		{
 			source.ThrowIfNull(nameof(source));
 			Requires.NotNullOrEmpty(filepath, nameof(filepath));
-
-			using var stream = new FileStream(filepath, FileMode.Create, FileAccess.Write);
+			
+			using FileStream stream = new(filepath, FileMode.Create, FileAccess.Write);
 			source.RawSave(stream);
 		}
 	}

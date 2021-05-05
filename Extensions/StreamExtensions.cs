@@ -9,8 +9,28 @@ namespace IO.Extensions
 {
 	public static class StreamExtensions
 	{
+		public static void SetSlice([NotNull] this Stream source, byte[] buffer) => source.SetSlice(0, buffer);
+		public static void SetSlice([NotNull] this Stream source, long streamPosition, byte[] buffer)
+		{
+			source.Position = streamPosition;
+			source.Write(buffer, 0, buffer.Length);
+		}
+
+		public static byte[] GetBytes([NotNull] this Stream source)
+		{
+			if (source is MemoryStream ms && ms.TryGetBuffer(out var msBuffer))
+				return msBuffer.Array!;
+
+			var buffer = new byte[source.Length];
+
+			source.Position = 0;
+			source.Read(buffer, 0, buffer.Length);
+
+			return buffer;
+		}
+
 		public static MemoryStream GetSlice([NotNull] this Stream source, int length) => source.GetSlice(0, length);
-		public static MemoryStream GetSlice([NotNull] this Stream source, int streamPosition, int length)
+		public static MemoryStream GetSlice([NotNull] this Stream source, long streamPosition, int length)
 		{
 			var buffer = new byte[length];
 
@@ -29,11 +49,8 @@ namespace IO.Extensions
 			source.Position = 0;
 
 			MemoryStream result = new();
-			var buffer = new byte[source.Length];
-			
-			if (source.Read(buffer) > 0)
-				result.Write(buffer);
 
+			source.CopyTo(result);
 			result.Position = 0;
 
 			return result;

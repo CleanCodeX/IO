@@ -17,36 +17,38 @@ namespace IO.Helpers
 			return Compress(encoding.GetBytes(value));
 		}
 
-		public static byte[] Compress([NotNull] byte[] bytes)
+		public static byte[] Compress([NotNull] byte[] buffer)
 		{
-			bytes.ThrowIfNull(nameof(bytes));
+			buffer.ThrowIfNull(nameof(buffer));
 
-			using var memoryStream = new MemoryStream();
-			using var gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true);
-
-			gZipStream.Write(bytes);
-
-			return memoryStream.ToArray();
+			using MemoryStream memoryStream = new();
+			using GZipStream gZipStream = new(memoryStream, CompressionMode.Compress);
+			
+			gZipStream.Write(buffer);
+			
+			return memoryStream.GetBuffer();
 		}
 
-		public static string Decompress([NotNull] Stream stream, Encoding? encoding)
+		public static string Decompress([NotNull] Stream stream, Encoding? encoding, bool leaveOpen = false)
 		{
 			stream.ThrowIfNull(nameof(stream));
 
 			encoding ??= Encoding.ASCII;
 
-			return encoding.GetString(Decompress(stream));
+			return encoding.GetString(Decompress(stream, leaveOpen));
 		}
 
-		public static byte[] Decompress([NotNull] Stream stream)
+		public static byte[] Decompress([NotNull] byte[] buffer) => Decompress(new MemoryStream(buffer));
+		public static byte[] Decompress([NotNull] Stream stream, bool leaveOpen = false)
 		{
 			stream.ThrowIfNull(nameof(stream));
+			stream.Position = 0;
 
-			using var gZipStream = new GZipStream(stream, CompressionMode.Decompress, true);
-			using var memoryStreamOutput = new MemoryStream();
+			using GZipStream gZipStream = new(stream, CompressionMode.Decompress, leaveOpen);
+			using MemoryStream outputStream = new();
+			gZipStream.CopyTo(outputStream);
 
-			gZipStream.CopyTo(memoryStreamOutput);
-			return memoryStreamOutput.ToArray();
+			return outputStream.GetBuffer();
 		}
 	}
 }

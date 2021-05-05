@@ -48,17 +48,17 @@ namespace IO.Models
 		public override void Load(byte[] buffer)
 		{
 			base.Load(buffer);
-			GetStructFromBlob();
+			CopyBufferToSegment();
 		}
 
 		/// <inheritdoc cref="IBlobFile.Load"/>
 		public override void Load(Stream stream)
 		{
 			base.Load(stream);
-			GetStructFromBlob();
+			CopyBufferToSegment();
 		}
 
-		private void GetStructFromBlob() => Segment = StructSerializer.Deserialize<TSegment>(Buffer);
+		protected void CopyBufferToSegment() => Segment = StructSerializer.Deserialize<TSegment>(Buffer);
 
 		/// <inheritdoc cref="ISegmentFile{TSegment}.GetSegment"/>
 		public virtual TSegment GetSegment() => Buffer[SegmentOffset..(SegmentOffset + Size)].ToStruct<TSegment>();

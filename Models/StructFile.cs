@@ -7,10 +7,11 @@ namespace IO.Models
 {
 	/// <summary>Provides load and save functionality for a generic struct file</summary>
 	/// <typeparam name="TStruct">The file's structure type</typeparam>
-	public class StructFile<TStruct> : BlobFile
+	/// <inheritdoc cref="IStructFile{TStruct}"/>
+	public class StructFile<TStruct> : BlobFile, IStructFile<TStruct>
 		where TStruct : struct
 	{
-		private bool SaveStruct { get; set; }
+		public bool StructIsModified { get; protected set; }
 
 		private TStruct _struct;
 
@@ -21,7 +22,7 @@ namespace IO.Models
 			protected set
 			{
 				_struct = value;
-				SaveStruct = true;
+				StructIsModified = true;
 			}
 		}
 
@@ -51,34 +52,38 @@ namespace IO.Models
 		public override void Load(byte[] buffer)
 		{
 			base.Load(buffer);
-			GetStructFromBlob();
-			SaveStruct = false;
+			CopyBufferToStruct();
 		}
 
 		/// <inheritdoc cref="IBlobFile.Load"/>
 		public override void Load(Stream stream)
 		{
 			base.Load(stream);
-			GetStructFromBlob();
-			SaveStruct = false;
+			CopyBufferToStruct();
 		}
 
 		/// <inheritdoc cref="IBlobFile.Save"/>
 		public override void Save(Stream stream)
 		{
-			if(SaveStruct)
-				SaveStructToBlob();
+			if(StructIsModified)
+				CopyStructToBuffer();
 			base.Save(stream);
 		}
 
-		private void SaveStructToBlob() => Buffer = StructSerializer.Serialize(Struct);
-		private void GetStructFromBlob() => Struct = StructSerializer.Deserialize<TStruct>(Buffer);
+		protected override void OnSaved() => StructIsModified = false;
+
+		public void CopyStructToBuffer() => Buffer = StructSerializer.Serialize(Struct);
+		public void CopyBufferToStruct()
+		{
+			Struct = StructSerializer.Deserialize<TStruct>(Buffer);
+			StructIsModified = false;
+		}
 
 		/// <summary>Converts a blob into struct</summary>
 		/// <typeparam name="T">The type of the struct</typeparam>
 		/// <param name="buffer">The buffer to convert from</param>
 		/// <returns>The converted <typeparamref name="T"/>/>></returns>
-		protected static T GetStructFromBlob<T>(byte[] buffer)
+		protected static T GetStructFromBuffer<T>(byte[] buffer)
 			where T : struct => StructSerializer.Deserialize<T>(buffer);
 	}
 }

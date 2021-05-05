@@ -47,7 +47,7 @@ namespace IO.Models
 		public MultiSegmentFile(int size, int firstSegmentOffset, int maxIndex) : base(size) => (SegmentSize, FirstSegmentOffset, MaxIndex) = (Marshal.SizeOf<TSegment>(), firstSegmentOffset, maxIndex);
 
 		/// <inheritdoc cref="IMultiSegmentFile{TSegment}.GetSegment"/>
-		public virtual TSegment GetSegment(int index) => GetStructFromBlob<TSegment>(GetSegmentBytes(index));
+		public virtual TSegment GetSegment(int index) => GetStructFromBuffer<TSegment>(GetSegmentBytes(index));
 
 		/// <inheritdoc cref="IMultiSegmentFile{TSegment}.SetSegmentBytes"/>
 		public virtual void SetSegment(int index, TSegment segment) => SetSegmentBytes(index, segment.ToBytes());
@@ -55,7 +55,7 @@ namespace IO.Models
 		/// <inheritdoc cref="IMultiSegmentFile.GetSegmentBytes"/>
 		public virtual byte[] GetSegmentBytes(int index)
 		{
-			Requires.True(IsValidIndex(index), nameof(index));
+			Requires.True(CheckValidIndex(index), nameof(index));
 
 			var startOffset = FirstSegmentOffset + index * SegmentSize;
 			var endOffset = startOffset + SegmentSize;
@@ -66,7 +66,7 @@ namespace IO.Models
 		/// <inheritdoc cref="IMultiSegmentFile.SetSegmentBytes"/>
 		public virtual void SetSegmentBytes(int index, byte[] buffer)
 		{
-			Requires.True(IsValidIndex(index), nameof(index));
+			Requires.True(CheckValidIndex(index), nameof(index));
 
 			var startOffset = FirstSegmentOffset + index * SegmentSize;
 
@@ -76,9 +76,14 @@ namespace IO.Models
 		/// <summary>Checks whether a segment index itself is valid. Can be overwritten for further checks.</summary>
 		/// <param name="index">The segment index to be checked</param>
 		/// <returns>true if the segment index is valid</returns>
-		public virtual bool IsValid(int index) => IsValidIndex(index);
+		public virtual bool IsValid(int index) => CheckValidIndex(index);
 
-		private bool IsValidIndex(int index) => index >= 0 && index <= MaxIndex;
+		private bool CheckValidIndex(int index)
+		{
+			if (index >= 0 && index <= MaxIndex) return true;
+
+			throw new ArgumentException($"Invalid Index. Valid range is 0-{MaxIndex}, but was {index}.");
+		}
 	}
 
 	/// <summary>Provides load and save functionality for a non-generic multi segment file</summary>

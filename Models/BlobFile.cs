@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
-using Common.Shared.Min.Helpers;
+using Common.Shared.Min.Extensions;
 using IO.Exceptions;
+
 // ReSharper disable VirtualMemberCallInConstructor
 
 namespace IO.Models
@@ -9,14 +10,24 @@ namespace IO.Models
 	/// <inheritdoc cref="IBlobFile"/>
 	public class BlobFile: IBlobFile, IRawSave
 	{
+		private byte[] _buffer = Array.Empty<byte>();
+
 		/// <inheritdoc cref="IBlobFile.Buffer"/>
-		public byte[] Buffer { get; protected set; } = Array.Empty<byte>();
+		public byte[] Buffer
+		{
+			get => _buffer;
+			protected set
+			{
+				_buffer = value;
+				IsModified = true;
+			}
+		}
 
 		/// <inheritdoc cref="IBlobFile.Size"/>
 		public int Size { get; }
 
 		/// <summary>Gets or sets if the file has been modified since last save or load</summary>
-		public bool IsModified { get; set; }
+		public virtual bool IsModified { get; set; }
 
 		/// <summary>
 		/// Creates an instance of <see cref="BlobFile"/> and loads content from stream into buffer and struct
@@ -44,7 +55,7 @@ namespace IO.Models
 		/// <param name="buffer">The buffer to be copied from</param>
 		public virtual void Load(byte[] buffer)
 		{
-			Requires.NotNull(buffer, nameof(buffer));
+			buffer.ThrowIfNull(nameof(buffer));
 
 			OnLoading();
 
@@ -59,7 +70,7 @@ namespace IO.Models
 		/// <param name="stream">The stream to be loaded from</param>
 		public virtual void Load(Stream stream)
 		{
-			Requires.NotNull(stream, nameof(stream));
+			stream.ThrowIfNull(nameof(stream));
 
 			OnLoading();
 
@@ -93,7 +104,7 @@ namespace IO.Models
 		/// <param name="stream">The stream to be saved to</param>
 		public void RawSave(Stream stream)
 		{
-			Requires.NotNull(stream, nameof(stream));
+			stream.ThrowIfNull(nameof(stream));
 
 			OnSaving();
 
